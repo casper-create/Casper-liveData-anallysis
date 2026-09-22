@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,10 +58,6 @@ button:disabled{
 .hidden{
     display:none!important;
 }
-
-/* =========================================================
-   LOGIN
-========================================================= */
 
 .login-screen{
     min-height:100vh;
@@ -159,10 +156,6 @@ button:disabled{
     color:var(--yellow);
     min-height:20px;
 }
-
-/* =========================================================
-   APP
-========================================================= */
 
 .app{
     width:min(1200px,calc(100% - 28px));
@@ -877,10 +870,6 @@ button:disabled{
 
 <body>
 
-<!-- =========================================================
-     LOGIN
-========================================================= -->
-
 <div id="loginScreen" class="login-screen">
 
     <div class="login-card">
@@ -929,10 +918,6 @@ button:disabled{
 </div>
 
 
-<!-- =========================================================
-     MAIN APP
-========================================================= -->
-
 <div id="mainApp" class="app hidden">
 
     <div class="topbar">
@@ -949,8 +934,6 @@ button:disabled{
 
     </div>
 
-
-    <!-- ACCOUNT -->
 
     <div class="account-bar">
 
@@ -992,8 +975,6 @@ button:disabled{
     <div id="accountStatus" class="account-status"></div>
 
 
-    <!-- HERO -->
-
     <section class="hero">
 
         <h1>Live Deriv Data Analysis</h1>
@@ -1006,8 +987,6 @@ button:disabled{
 
     </section>
 
-
-    <!-- SUMMARY -->
 
     <section class="summary">
 
@@ -1034,8 +1013,6 @@ button:disabled{
     </section>
 
 
-    <!-- CONFIG -->
-
     <section class="section">
 
         <div class="section-title">
@@ -1048,7 +1025,6 @@ button:disabled{
 
                 <div class="field">
                     <label>Stake Per Trade</label>
-
                     <input
                         id="stakeInput"
                         type="number"
@@ -1060,7 +1036,6 @@ button:disabled{
 
                 <div class="field">
                     <label>Profit Target</label>
-
                     <input
                         id="profitTargetInput"
                         type="number"
@@ -1072,7 +1047,6 @@ button:disabled{
 
                 <div class="field">
                     <label>Max Loss</label>
-
                     <input
                         id="maxLossInput"
                         type="number"
@@ -1084,7 +1058,6 @@ button:disabled{
 
                 <div class="field">
                     <label>Currency</label>
-
                     <select id="currencyInput">
                         <option value="USD">USD</option>
                     </select>
@@ -1134,8 +1107,6 @@ button:disabled{
     </section>
 
 
-    <!-- STRATEGIES -->
-
     <section class="section">
 
         <div class="section-title">
@@ -1145,87 +1116,36 @@ button:disabled{
         <div class="strategy-grid">
 
             <div class="strategy-card active" id="strategy-alpha">
-
-                <span class="strategy-tag">
-                    ALPHA
-                </span>
-
-                <h3>
-                    Matches Printer
-                </h3>
-
-                <p>
-                    Smart matches for consistent hits.
-                </p>
-
-                <div class="strategy-status">
-                    Analysis engine available
-                </div>
-
+                <span class="strategy-tag">ALPHA</span>
+                <h3>Matches Printer</h3>
+                <p>Smart matches for consistent hits.</p>
+                <div class="strategy-status">Analysis engine available</div>
             </div>
-
 
             <div class="strategy-card" id="strategy-quantum">
-
-                <span class="strategy-tag">
-                    QUANTUM
-                </span>
-
-                <h3>
-                    Over 8 Killer
-                </h3>
-
-                <p>
-                    High-accuracy Over 8 analysis.
-                </p>
-
-                <div class="strategy-status">
-                    Analysis engine available
-                </div>
-
+                <span class="strategy-tag">QUANTUM</span>
+                <h3>Over 8 Killer</h3>
+                <p>High-accuracy Over 8 analysis.</p>
+                <div class="strategy-status">Analysis engine available</div>
             </div>
-
 
             <div class="strategy-card active" id="strategy-tickstrike">
-
-                <span class="strategy-tag">
-                    APEX
-                </span>
-
-                <h3>
-                    TickStrike Pro
-                </h3>
-
-                <p>
-                    High-speed tick momentum analysis.
-                </p>
-
-                <div class="strategy-status">
-                    Live momentum engine
-                </div>
-
+                <span class="strategy-tag">APEX</span>
+                <h3>TickStrike Pro</h3>
+                <p>High-speed tick momentum analysis.</p>
+                <div class="strategy-status">Live momentum engine</div>
             </div>
 
-
             <div class="strategy-card active" id="strategy-switcher">
-
-                <span class="strategy-tag">
-                    APEX
-                </span>
-
-                <h3>
-                    Auto Switcher
-                </h3>
-
+                <span class="strategy-tag">APEX</span>
+                <h3>Auto Switcher</h3>
                 <p>
                     Automatically selects the most suitable current
                     execution direction and market setup.
                 </p>
-
                 <div class="strategy-status">
                     Smart AI routing
                 </div>
-
             </div>
 
         </div>
@@ -1233,20 +1153,13 @@ button:disabled{
     </section>
 
 
-    <!-- SMART AI -->
-
     <section class="section">
 
         <div class="section-title">
 
-            <h2>
-                Smart AI Market Selection
-            </h2>
+            <h2>Smart AI Market Selection</h2>
 
-            <button
-                id="smartSelectBtn"
-                class="ai-btn"
-            >
+            <button id="smartSelectBtn" class="ai-btn">
                 Run Smart AI
             </button>
 
@@ -1271,54 +1184,27 @@ button:disabled{
                 <div class="ai-selection">
 
                     <div class="ai-box">
-
-                        <span>
-                            Selected Market
-                        </span>
-
-                        <strong id="aiMarket">
-                            —
-                        </strong>
-
+                        <span>Selected Market</span>
+                        <strong id="aiMarket">—</strong>
                     </div>
 
                     <div class="ai-box">
-
-                        <span>
-                            Direction
-                        </span>
-
-                        <strong id="aiDirection">
-                            WAIT
-                        </strong>
-
+                        <span>Direction</span>
+                        <strong id="aiDirection">WAIT</strong>
                     </div>
 
                     <div class="ai-box">
-
-                        <span>
-                            Confidence
-                        </span>
-
-                        <strong id="aiConfidence">
-                            0%
-                        </strong>
-
+                        <span>Confidence</span>
+                        <strong id="aiConfidence">0%</strong>
                     </div>
 
                 </div>
 
                 <div class="ai-score">
-                    <div
-                        id="aiScoreBar"
-                        class="ai-score-bar"
-                    ></div>
+                    <div id="aiScoreBar" class="ai-score-bar"></div>
                 </div>
 
-                <div
-                    id="aiReason"
-                    class="execution-note"
-                >
+                <div id="aiReason" class="execution-note">
                     The engine needs live observations before selecting
                     a market.
                 </div>
@@ -1328,16 +1214,14 @@ button:disabled{
 
             <div class="panel">
 
-                <h3>
-                    Auto Switcher
-                </h3>
+                <h3>Auto Switcher</h3>
 
                 <p
                     style="color:var(--muted);font-size:12px;line-height:1.6;margin-top:8px"
                 >
                     APEX Auto Switcher continuously compares independent
-                    market conditions and routes the analysis focus toward
-                    the strongest current setup.
+                    market conditions and automatically changes the active
+                    RISE/FALL direction when the live analysis changes.
                 </p>
 
                 <div class="action-row">
@@ -1365,19 +1249,13 @@ button:disabled{
     </section>
 
 
-    <!-- MARKETS -->
-
     <section class="section">
 
         <div class="section-title">
 
-            <h2>
-                Live Market Analysis
-            </h2>
+            <h2>Live Market Analysis</h2>
 
-            <span
-                style="font-size:11px;color:var(--muted)"
-            >
+            <span style="font-size:11px;color:var(--muted)">
                 Independent market state
             </span>
 
@@ -1387,8 +1265,6 @@ button:disabled{
 
     </section>
 
-
-    <!-- EXECUTION AREA -->
 
     <section class="section">
 
@@ -1400,9 +1276,7 @@ button:disabled{
 
             <div class="execution-card">
 
-                <h3>
-                    Manual Setup
-                </h3>
+                <h3>Manual Setup</h3>
 
                 <p>
                     Select a market and prepare a RISE or FALL setup
@@ -1412,9 +1286,7 @@ button:disabled{
                 </p>
 
                 <div class="manual-market">
-
                     <select id="manualMarketSelector"></select>
-
                 </div>
 
                 <div class="manual-buttons">
@@ -1435,10 +1307,7 @@ button:disabled{
 
                 </div>
 
-                <div
-                    id="manualStatus"
-                    class="execution-note"
-                >
+                <div id="manualStatus" class="execution-note">
                     No manual setup prepared.
                 </div>
 
@@ -1447,9 +1316,7 @@ button:disabled{
 
             <div class="execution-card">
 
-                <h3>
-                    Selected Execution Setup
-                </h3>
+                <h3>Selected Execution Setup</h3>
 
                 <p>
                     This panel shows the decision generated by the
@@ -1490,8 +1357,6 @@ button:disabled{
     </section>
 
 
-    <!-- TRANSACTIONS -->
-
     <section class="section">
 
         <div class="section-title">
@@ -1500,23 +1365,16 @@ button:disabled{
 
         <div class="panel">
 
-            <div
-                id="transactionList"
-                class="transaction-list"
-            >
-
+            <div id="transactionList" class="transaction-list">
                 <div class="log-line">
                     Waiting for authenticated account activity...
                 </div>
-
             </div>
 
         </div>
 
     </section>
 
-
-    <!-- LOG -->
 
     <section class="section">
 
@@ -1577,7 +1435,6 @@ const PUBLIC_WS_URL =
 
 /* ============================================================
    MARKET CONFIGURATION
-   12 selected Volatility markets
 ============================================================ */
 
 const MARKETS = [
@@ -1678,12 +1535,35 @@ let sessionTradesValue = 0;
 let transactionItems = [];
 
 
+/*
+ * AUTO SWITCHER STATE
+ *
+ * These values make the switcher stateful instead of simply
+ * selecting a market again every few seconds.
+ */
+
+let autoSwitcherMarket = null;
+
+let autoSwitcherDirection = "WAIT";
+
+let autoSwitcherLastScore = 0;
+
+let autoSwitcherLastSwitch = 0;
+
+const AUTO_SWITCH_INTERVAL = 1500;
+
+const AUTO_SWITCH_MIN_CONFIDENCE = 55;
+
+const AUTO_SWITCH_SCORE_GAP = 7;
+
+const AUTO_SWITCH_COOLDOWN = 2500;
+
+
 /* ============================================================
    MARKET STATE
 ============================================================ */
 
 const marketState = {};
-
 
 MARKETS.forEach(
     market => {
@@ -2203,11 +2083,6 @@ async function handleOAuthCallback(){
         oauthAccessToken =
             data.access_token;
 
-        /*
-         * Keep the token in memory only.
-         * It is deliberately not written into localStorage.
-         */
-
         sessionStorage.removeItem(
             "casper_code_verifier"
         );
@@ -2556,11 +2431,6 @@ async function selectAccount(
 
     }
 
-    /*
-     * Reconnect the authenticated account stream
-     * for the newly selected account.
-     */
-
     await connectAuthenticatedAccount();
 
 }
@@ -2881,10 +2751,6 @@ function subscribeAccountStreams(){
 
     }
 
-    /*
-     * Account balance.
-     */
-
     accountWs.send(
         JSON.stringify({
 
@@ -2896,10 +2762,6 @@ function subscribeAccountStreams(){
 
         })
     );
-
-    /*
-     * Account transactions.
-     */
 
     accountWs.send(
         JSON.stringify({
@@ -3212,59 +3074,31 @@ function renderMarkets(){
                 <div class="market-grid">
 
                     <div class="metric">
-
-                        <span>
-                            Direction
-                        </span>
-
-                        <strong
-                            id="direction-${market.symbol}"
-                        >
+                        <span>Direction</span>
+                        <strong id="direction-${market.symbol}">
                             WAIT
                         </strong>
-
                     </div>
 
                     <div class="metric">
-
-                        <span>
-                            Momentum
-                        </span>
-
-                        <strong
-                            id="momentum-${market.symbol}"
-                        >
+                        <span>Momentum</span>
+                        <strong id="momentum-${market.symbol}">
                             0
                         </strong>
-
                     </div>
 
                     <div class="metric">
-
-                        <span>
-                            Volatility
-                        </span>
-
-                        <strong
-                            id="volatility-${market.symbol}"
-                        >
+                        <span>Volatility</span>
+                        <strong id="volatility-${market.symbol}">
                             0
                         </strong>
-
                     </div>
 
                     <div class="metric">
-
-                        <span>
-                            Confidence
-                        </span>
-
-                        <strong
-                            id="confidence-${market.symbol}"
-                        >
+                        <span>Confidence</span>
+                        <strong id="confidence-${market.symbol}">
                             0%
                         </strong>
-
                     </div>
 
                 </div>
@@ -3278,15 +3112,11 @@ function renderMarkets(){
 
                 <div class="market-footer">
 
-                    <span
-                        id="sample-${market.symbol}"
-                    >
+                    <span id="sample-${market.symbol}">
                         Samples: 0
                     </span>
 
-                    <span
-                        id="updated-${market.symbol}"
-                    >
+                    <span id="updated-${market.symbol}">
                         Waiting
                     </span>
 
@@ -3297,7 +3127,6 @@ function renderMarkets(){
             marketsContainer.appendChild(
                 card
             );
-
 
             const option =
                 document.createElement("option");
@@ -3672,11 +3501,6 @@ function analyzeMarket(symbol){
             0.45
         );
 
-    /*
-     * Confidence is an analysis score, not
-     * a guarantee of winning probability.
-     */
-
     state.confidence =
         Math.max(
             0,
@@ -3829,16 +3653,19 @@ function selectSmartMarket(){
 }
 
 
-function runSmartAI(
+/* ============================================================
+   SMART AI DISPLAY
+============================================================ */
+
+function displaySmartSelection(
+    state,
+    score,
     automatic = false
 ){
 
-    const result =
-        selectSmartMarket();
-
     if(
-        !result.state ||
-        result.score < 0
+        !state ||
+        score < 0
     ){
 
         aiHeadline.textContent =
@@ -3863,9 +3690,6 @@ function runSmartAI(
 
     }
 
-    const state =
-        result.state;
-
     aiMarket.textContent =
         state.name;
 
@@ -3878,23 +3702,60 @@ function runSmartAI(
     aiScoreBar.style.width =
         `${Math.min(
             100,
-            Math.round(
-                result.score
-            )
+            Math.round(score)
         )}%`;
 
     aiHeadline.textContent =
         automatic
-            ? "APEX Auto Switcher selected current setup"
+            ? "APEX Auto Switcher active"
             : "Smart AI selected current setup";
 
     aiReason.textContent =
         `${state.name} currently has ${state.confidence}% analysis confidence, ` +
         `${state.upMoves} upward moves vs ${state.downMoves} downward moves ` +
-        `in the rolling sample. This is an analytical score, not a guaranteed outcome.`;
+        `in the rolling sample. ` +
+        `Live direction: ${state.signal}.`;
 
     highlightMarket(
         state.symbol
+    );
+
+}
+
+
+/* ============================================================
+   NORMAL SMART AI
+============================================================ */
+
+function runSmartAI(
+    automatic = false
+){
+
+    const result =
+        selectSmartMarket();
+
+    if(
+        !result.state ||
+        result.score < 0
+    ){
+
+        displaySmartSelection(
+            null,
+            -1,
+            automatic
+        );
+
+        return;
+
+    }
+
+    const state =
+        result.state;
+
+    displaySmartSelection(
+        state,
+        result.score,
+        automatic
     );
 
     prepareExecution(
@@ -3921,6 +3782,10 @@ function runSmartAI(
 
 }
 
+
+/* ============================================================
+   HIGHLIGHT MARKET
+============================================================ */
 
 function highlightMarket(symbol){
 
@@ -3953,6 +3818,404 @@ function highlightMarket(symbol){
    APEX AUTO SWITCHER
 ============================================================ */
 
+/*
+ * Returns every market that has a currently usable direction.
+ */
+
+function getDirectionalCandidates(){
+
+    return Object.values(
+        marketState
+    )
+    .filter(
+        state =>
+            state.prices.length >= 8 &&
+            (
+                state.signal === "RISE" ||
+                state.signal === "FALL"
+            ) &&
+            state.confidence >=
+                AUTO_SWITCH_MIN_CONFIDENCE
+    )
+    .map(
+        state => {
+
+            return {
+
+                state,
+
+                score:
+                    scoreMarket(state)
+
+            };
+
+        }
+    )
+    .sort(
+        (a,b) =>
+            b.score -
+            a.score
+    );
+
+}
+
+
+/*
+ * This is the actual switching decision.
+ *
+ * It considers:
+ *
+ * 1. Current market.
+ * 2. Current direction.
+ * 3. Stronger opposite-direction signals.
+ * 4. A stronger market elsewhere.
+ * 5. A small cooldown to stop noisy tick-by-tick flipping.
+ */
+
+function evaluateAutoSwitcher(){
+
+    if(!autoSwitcherEnabled){
+
+        return;
+
+    }
+
+    const candidates =
+        getDirectionalCandidates();
+
+    if(!candidates.length){
+
+        autoSwitcherDirection =
+            "WAIT";
+
+        autoSwitcherLastScore =
+            0;
+
+        aiHeadline.textContent =
+            "Auto Switcher waiting for a valid setup";
+
+        aiMarket.textContent =
+            "—";
+
+        aiDirection.textContent =
+            "WAIT";
+
+        aiConfidence.textContent =
+            "0%";
+
+        aiScoreBar.style.width =
+            "0%";
+
+        aiReason.textContent =
+            "No market currently meets the minimum live directional threshold.";
+
+        autoSwitcherStatus.textContent =
+            "ON · Waiting for a valid RISE/FALL setup.";
+
+        executionDecision.textContent =
+            "AUTO SWITCHER WAITING";
+
+        executionDecision.classList.remove(
+            "buy",
+            "sell"
+        );
+
+        executionDecision.classList.add(
+            "wait"
+        );
+
+        return;
+
+    }
+
+    const best =
+        candidates[0];
+
+    const current =
+        autoSwitcherMarket
+            ? marketState[
+                autoSwitcherMarket
+              ]
+            : null;
+
+    const now =
+        Date.now();
+
+    const currentStillValid =
+        current &&
+        (
+            current.signal === "RISE" ||
+            current.signal === "FALL"
+        ) &&
+        current.confidence >=
+            AUTO_SWITCH_MIN_CONFIDENCE;
+
+    const bestIsSameMarket =
+        current &&
+        best.state.symbol ===
+            current.symbol;
+
+    const directionChanged =
+        current &&
+        current.signal !==
+            best.state.signal;
+
+    const strongerAlternative =
+        current &&
+        !bestIsSameMarket &&
+        best.score >=
+            autoSwitcherLastScore +
+            AUTO_SWITCH_SCORE_GAP;
+
+    const firstSelection =
+        !autoSwitcherMarket;
+
+    const currentLostSignal =
+        current &&
+        !currentStillValid;
+
+    const cooldownPassed =
+        (
+            now -
+            autoSwitcherLastSwitch
+        ) >=
+        AUTO_SWITCH_COOLDOWN;
+
+
+    /*
+     * First valid setup.
+     */
+
+    if(firstSelection){
+
+        switchAutoSetup(
+            best,
+            "initial setup"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * If the existing setup becomes invalid,
+     * move to the strongest valid setup.
+     */
+
+    if(
+        currentLostSignal &&
+        cooldownPassed
+    ){
+
+        switchAutoSetup(
+            best,
+            "current setup became invalid"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * If another market becomes materially stronger,
+     * switch to that market.
+     */
+
+    if(
+        strongerAlternative &&
+        cooldownPassed
+    ){
+
+        switchAutoSetup(
+            best,
+            "stronger market detected"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * If the same market changes from RISE to FALL
+     * or FALL to RISE, change direction.
+     */
+
+    if(
+        bestIsSameMarket &&
+        directionChanged &&
+        cooldownPassed
+    ){
+
+        switchAutoSetup(
+            best,
+            "direction changed"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Keep current setup.
+     */
+
+    autoSwitcherDirection =
+        best.state.signal;
+
+    autoSwitcherLastScore =
+        best.score;
+
+    updateAutoSwitcherDisplay(
+        best,
+        false
+    );
+
+}
+
+
+/*
+ * Performs a real Auto Switcher state change.
+ */
+
+function switchAutoSetup(
+    candidate,
+    reason
+){
+
+    if(
+        !candidate ||
+        !candidate.state
+    ){
+
+        return;
+
+    }
+
+    const state =
+        candidate.state;
+
+    const oldMarket =
+        autoSwitcherMarket;
+
+    const oldDirection =
+        autoSwitcherDirection;
+
+    autoSwitcherMarket =
+        state.symbol;
+
+    autoSwitcherDirection =
+        state.signal;
+
+    autoSwitcherLastScore =
+        candidate.score;
+
+    autoSwitcherLastSwitch =
+        Date.now();
+
+    updateAutoSwitcherDisplay(
+        candidate,
+        true
+    );
+
+    prepareExecution(
+        state.symbol,
+        state.signal,
+        "APEX Auto Switcher"
+    );
+
+    if(
+        oldMarket &&
+        (
+            oldMarket !==
+            state.symbol ||
+            oldDirection !==
+            state.signal
+        )
+    ){
+
+        log(
+            `AUTO SWITCH: ${oldMarket} ${oldDirection} → ${state.name} ${state.signal}. Reason: ${reason}.`
+        );
+
+    }else{
+
+        log(
+            `AUTO SWITCH: ${state.name} → ${state.signal}. Reason: ${reason}.`
+        );
+
+    }
+
+}
+
+
+/*
+ * Keeps the Auto Switcher panel synchronized with
+ * the currently selected live setup.
+ */
+
+function updateAutoSwitcherDisplay(
+    candidate,
+    switched
+){
+
+    if(
+        !candidate ||
+        !candidate.state
+    ){
+
+        return;
+
+    }
+
+    const state =
+        candidate.state;
+
+    aiMarket.textContent =
+        state.name;
+
+    aiDirection.textContent =
+        state.signal;
+
+    aiConfidence.textContent =
+        `${state.confidence}%`;
+
+    aiScoreBar.style.width =
+        `${Math.min(
+            100,
+            Math.round(
+                candidate.score
+            )
+        )}%`;
+
+    aiHeadline.textContent =
+        switched
+            ? `Auto Switcher → ${state.signal}`
+            : `Auto Switcher holding ${state.signal}`;
+
+    aiReason.textContent =
+        `${state.name} · ${state.signal} · ` +
+        `${state.confidence}% confidence · ` +
+        `${state.upMoves} up / ${state.downMoves} down ` +
+        `in the rolling sample.`;
+
+    autoSwitcherStatus.textContent =
+        `ON · ${state.name} · ${state.signal} · ${state.confidence}%`;
+
+    highlightMarket(
+        state.symbol
+    );
+
+}
+
+
+/* ============================================================
+   AUTO SWITCHER TOGGLE
+============================================================ */
+
 function toggleAutoSwitcher(){
 
     autoSwitcherEnabled =
@@ -3964,13 +4227,23 @@ function toggleAutoSwitcher(){
             "Disable Auto Switcher";
 
         autoSwitcherStatus.textContent =
-            "ON · Comparing live market conditions.";
+            "ON · Waiting for live directional setup.";
+
+        autoSwitcherMarket =
+            null;
+
+        autoSwitcherDirection =
+            "WAIT";
+
+        autoSwitcherLastScore =
+            0;
+
+        autoSwitcherLastSwitch =
+            0;
 
         log(
-            "APEX Auto Switcher enabled."
+            "APEX Auto Switcher enabled. Live RISE/FALL routing is active."
         );
-
-        runSmartAI(true);
 
         if(smartAiTimer){
 
@@ -3980,6 +4253,12 @@ function toggleAutoSwitcher(){
 
         }
 
+        /*
+         * The switcher checks frequently enough to react
+         * to live market changes without changing the
+         * underlying tick subscriptions.
+         */
+
         smartAiTimer =
             setInterval(
                 function(){
@@ -3988,13 +4267,15 @@ function toggleAutoSwitcher(){
                         autoSwitcherEnabled
                     ){
 
-                        runSmartAI(true);
+                        evaluateAutoSwitcher();
 
                     }
 
                 },
-                5000
+                AUTO_SWITCH_INTERVAL
             );
+
+        evaluateAutoSwitcher();
 
     }else{
 
@@ -4014,6 +4295,15 @@ function toggleAutoSwitcher(){
                 null;
 
         }
+
+        autoSwitcherMarket =
+            null;
+
+        autoSwitcherDirection =
+            "WAIT";
+
+        autoSwitcherLastScore =
+            0;
 
         log(
             "APEX Auto Switcher disabled."
@@ -4261,6 +4551,61 @@ function connectLiveData(){
     summarySubscriptions.textContent =
         "0";
 
+    /*
+     * Reset Auto Switcher selection whenever
+     * a fresh market feed is started.
+     */
+
+    autoSwitcherMarket =
+        null;
+
+    autoSwitcherDirection =
+        "WAIT";
+
+    autoSwitcherLastScore =
+        0;
+
+    autoSwitcherLastSwitch =
+        0;
+
+    Object.values(
+        marketState
+    ).forEach(
+        state => {
+
+            state.prices = [];
+
+            state.lastPrice = null;
+
+            state.previousPrice = null;
+
+            state.direction = "WAIT";
+
+            state.momentum = 0;
+
+            state.volatility = 0;
+
+            state.confidence = 0;
+
+            state.signal = "WAIT";
+
+            state.upMoves = 0;
+
+            state.downMoves = 0;
+
+            state.trendStrength = 0;
+
+            state.lastUpdate = null;
+
+            state.sampleCount = 0;
+
+            updateMarketCard(
+                state.symbol
+            );
+
+        }
+    );
+
     log(
         "Connecting to Deriv public market data..."
     );
@@ -4343,12 +4688,6 @@ function requestMarkets(){
 
     }
 
-    /*
-     * Current Deriv API supports active_symbols
-     * without authentication. We request it so
-     * availability can be observed in the log.
-     */
-
     publicWs.send(
         JSON.stringify({
 
@@ -4358,11 +4697,6 @@ function requestMarkets(){
 
         })
     );
-
-
-    /*
-     * Subscribe to each selected market.
-     */
 
     MARKETS.forEach(
         (market,index) => {
@@ -4508,9 +4842,28 @@ function processTick(tick){
         symbol
     );
 
+
     /*
-     * Update Smart AI periodically from
-     * the live data stream.
+     * AUTO SWITCHER:
+     *
+     * Evaluate immediately after enough fresh
+     * market information exists. The internal
+     * cooldown prevents rapid oscillation.
+     */
+
+    if(
+        autoSwitcherEnabled &&
+        state.prices.length >= 8
+    ){
+
+        evaluateAutoSwitcher();
+
+    }
+
+
+    /*
+     * Normal Smart AI remains available when
+     * Auto Switcher is OFF.
      */
 
     if(
@@ -4609,6 +4962,24 @@ function logout(){
     autoSwitcherEnabled =
         false;
 
+    autoSwitcherMarket =
+        null;
+
+    autoSwitcherDirection =
+        "WAIT";
+
+    autoSwitcherLastScore =
+        0;
+
+    autoSwitcherLastSwitch =
+        0;
+
+    autoSwitcherBtn.textContent =
+        "Enable Auto Switcher";
+
+    autoSwitcherStatus.textContent =
+        "Currently OFF";
+
     oauthAccessToken =
         null;
 
@@ -4637,12 +5008,6 @@ function logout(){
         [];
 
     renderTransactions();
-
-    /*
-     * Only remove CASPER OAuth session keys.
-     * Do not indiscriminately clear every sessionStorage
-     * entry belonging to the page/application.
-     */
 
     sessionStorage.removeItem(
         "casper_code_verifier"
@@ -4820,14 +5185,8 @@ validateRisk();
 
 handleOAuthCallback();
 
-
-/*
- * The user can already see the application after
- * the OAuth callback. Live market data remains a
- * deliberate button action.
- */
-
 </script>
 
 </body>
 </html>
+```
