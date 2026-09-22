@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,9 +39,7 @@ body{
     font-family:Inter,Arial,Helvetica,sans-serif;
 }
 
-button,
-input,
-select{
+button,input,select{
     font:inherit;
 }
 
@@ -284,7 +281,7 @@ button:disabled{
 
 .summary{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(6,1fr);
     gap:12px;
     margin-bottom:20px;
 }
@@ -307,6 +304,14 @@ button:disabled{
     font-size:25px;
     font-weight:900;
     margin-top:8px;
+}
+
+.accuracy-good{
+    color:#86efac;
+}
+
+.accuracy-neutral{
+    color:#fde68a;
 }
 
 .section{
@@ -645,6 +650,10 @@ button:disabled{
     border-color:rgba(250,204,21,.25);
 }
 
+.signal.neutral{
+    color:#94a3b8;
+}
+
 .market-footer{
     display:flex;
     justify-content:space-between;
@@ -652,6 +661,15 @@ button:disabled{
     margin-top:11px;
     color:#64748b;
     font-size:10px;
+}
+
+.validation-row{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    margin-top:10px;
+    font-size:10px;
+    color:#64748b;
 }
 
 .execution-grid{
@@ -735,6 +753,42 @@ button:disabled{
     color:#94a3b8;
 }
 
+.alert-panel{
+    border-color:rgba(34,211,238,.25);
+}
+
+.alert-list{
+    max-height:260px;
+    overflow:auto;
+}
+
+.alert-item{
+    padding:11px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.alert-item strong{
+    display:block;
+    margin-bottom:3px;
+}
+
+.alert-item span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.alert-rise strong{
+    color:#86efac;
+}
+
+.alert-fall strong{
+    color:#fca5a5;
+}
+
+.alert-neutral strong{
+    color:#fde68a;
+}
+
 .transaction-list{
     max-height:280px;
     overflow:auto;
@@ -807,8 +861,13 @@ button:disabled{
     line-height:1.5;
 }
 
+@media(max-width:1100px){
+    .summary{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
 @media(max-width:1000px){
-    .summary,
     .config-grid{
         grid-template-columns:repeat(2,1fr);
     }
@@ -980,9 +1039,9 @@ button:disabled{
         <h1>Live Deriv Data Analysis</h1>
 
         <p>
-            Monitor live Deriv market data, independently analyze market
-            conditions and allow the Smart AI layer to identify the
-            strongest current setup without using countdown-based logic.
+            Monitor independent live Deriv tick streams, filter weak
+            setups and validate generated RISE/FALL signals against
+            subsequent market movement.
         </p>
 
     </section>
@@ -997,7 +1056,7 @@ button:disabled{
 
         <div class="summary-card">
             <div class="summary-label">Markets</div>
-            <div id="summaryMarkets" class="summary-value">12</div>
+            <div id="summaryMarkets" class="summary-value">10</div>
         </div>
 
         <div class="summary-card">
@@ -1008,6 +1067,18 @@ button:disabled{
         <div class="summary-card">
             <div class="summary-label">Ticks Received</div>
             <div id="summaryTicks" class="summary-value">0</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Accuracy</div>
+            <div id="summaryAccuracy" class="summary-value accuracy-neutral">
+                —
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Alerts</div>
+            <div id="summaryAlerts" class="summary-value">0</div>
         </div>
 
     </section>
@@ -1078,8 +1149,8 @@ button:disabled{
                 </div>
 
                 <div class="risk-item">
-                    <span>Trades This Session</span>
-                    <strong id="sessionTrades">0</strong>
+                    <span>Validated Signals</span>
+                    <strong id="validatedSignals">0</strong>
                 </div>
 
             </div>
@@ -1097,9 +1168,9 @@ button:disabled{
             </div>
 
             <div class="notice">
-                Demo-first execution layer. This version analyzes live data
-                and prepares execution decisions, but does not submit
-                real-money contracts automatically.
+                Accuracy engine is operating in analysis/demo mode.
+                Signals are validated against later live ticks.
+                No real-money contract is submitted by this page.
             </div>
 
         </div>
@@ -1118,33 +1189,33 @@ button:disabled{
             <div class="strategy-card active" id="strategy-alpha">
                 <span class="strategy-tag">ALPHA</span>
                 <h3>Matches Printer</h3>
-                <p>Smart matches for consistent hits.</p>
-                <div class="strategy-status">Analysis engine available</div>
+                <p>Smart directional consistency analysis.</p>
+                <div class="strategy-status">Validation engine available</div>
             </div>
 
             <div class="strategy-card" id="strategy-quantum">
                 <span class="strategy-tag">QUANTUM</span>
                 <h3>Over 8 Killer</h3>
-                <p>High-accuracy Over 8 analysis.</p>
+                <p>High-confidence market pressure analysis.</p>
                 <div class="strategy-status">Analysis engine available</div>
             </div>
 
             <div class="strategy-card active" id="strategy-tickstrike">
                 <span class="strategy-tag">APEX</span>
                 <h3>TickStrike Pro</h3>
-                <p>High-speed tick momentum analysis.</p>
-                <div class="strategy-status">Live momentum engine</div>
+                <p>High-speed tick momentum and direction analysis.</p>
+                <div class="strategy-status">Live tick engine</div>
             </div>
 
             <div class="strategy-card active" id="strategy-switcher">
                 <span class="strategy-tag">APEX</span>
                 <h3>Auto Switcher</h3>
                 <p>
-                    Automatically selects the most suitable current
-                    execution direction and market setup.
+                    Automatically selects the strongest validated
+                    RISE/FALL setup from the live markets.
                 </p>
                 <div class="strategy-status">
-                    Smart AI routing
+                    Smart routing engine
                 </div>
             </div>
 
@@ -1220,8 +1291,8 @@ button:disabled{
                     style="color:var(--muted);font-size:12px;line-height:1.6;margin-top:8px"
                 >
                     APEX Auto Switcher continuously compares independent
-                    market conditions and automatically changes the active
-                    RISE/FALL direction when the live analysis changes.
+                    market conditions and changes the active RISE/FALL
+                    setup only when the live evidence is strong enough.
                 </p>
 
                 <div class="action-row">
@@ -1256,12 +1327,76 @@ button:disabled{
             <h2>Live Market Analysis</h2>
 
             <span style="font-size:11px;color:var(--muted)">
-                Independent market state
+                Independent tick analysis
             </span>
 
         </div>
 
         <div id="marketsContainer" class="markets"></div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Signal Alerts</h2>
+            <span style="font-size:11px;color:var(--muted)">
+                New validated directional setups
+            </span>
+        </div>
+
+        <div class="panel alert-panel">
+
+            <div id="alertList" class="alert-list">
+
+                <div class="log-line">
+                    Waiting for a qualifying live signal...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Signal Validation</h2>
+        </div>
+
+        <div class="panel">
+
+            <div class="risk-box">
+
+                <div class="risk-item">
+                    <span>Validated</span>
+                    <strong id="validationTotal">0</strong>
+                </div>
+
+                <div class="risk-item">
+                    <span>Correct</span>
+                    <strong id="validationCorrect">0</strong>
+                </div>
+
+                <div class="risk-item">
+                    <span>Wrong</span>
+                    <strong id="validationWrong">0</strong>
+                </div>
+
+            </div>
+
+            <div
+                id="validationExplanation"
+                class="execution-note"
+            >
+                Signals are checked after the configured forward-tick
+                validation window.
+            </div>
+
+        </div>
 
     </section>
 
@@ -1399,8 +1534,8 @@ button:disabled{
 
     <div class="footer">
         CASPER LIVE DATA ANALYSIS · Demo-first testing environment.
-        Live market analysis is enabled. Contract purchasing remains
-        disabled in this build.
+        Live market analysis and signal validation are enabled.
+        Contract purchasing remains disabled in this build.
     </div>
 
 </div>
@@ -1413,7 +1548,7 @@ button:disabled{
 ============================================================ */
 
 const DERIV_CLIENT_ID =
-    "34qQDLAzOdZmQQa7ZfD7Y";
+    "34qQDLAzOdZmQQa7ZfD7";
 
 const DERIV_REDIRECT_URI =
     "https://casper-create.github.io/Casper-liveData-anallysis/";
@@ -1434,7 +1569,7 @@ const PUBLIC_WS_URL =
 
 
 /* ============================================================
-   MARKET CONFIGURATION
+   EXACT 10 MARKET CONFIGURATION
 ============================================================ */
 
 const MARKETS = [
@@ -1465,16 +1600,6 @@ const MARKETS = [
     },
 
     {
-        symbol:"1HZ15V",
-        name:"Volatility 15 (1s)"
-    },
-
-    {
-        symbol:"1HZ30V",
-        name:"Volatility 30 (1s)"
-    },
-
-    {
         symbol:"R_100",
         name:"Volatility 100 Index"
     },
@@ -1500,6 +1625,60 @@ const MARKETS = [
     }
 
 ];
+
+
+/* ============================================================
+   ACCURACY ENGINE CONFIGURATION
+============================================================ */
+
+/*
+ * We deliberately do NOT make a prediction from one tick.
+ *
+ * The engine compares:
+ *
+ *  - short-term direction
+ *  - medium-term direction
+ *  - longer-term direction
+ *  - recent return pressure
+ *  - consistency
+ *
+ * A signal is produced only when enough evidence agrees.
+ */
+
+const MIN_TICKS_FOR_ANALYSIS = 20;
+
+const MIN_TICKS_FOR_SIGNAL = 30;
+
+const SIGNAL_CONFIDENCE_THRESHOLD = 67;
+
+const SIGNAL_COOLDOWN = 5000;
+
+/*
+ * Number of future ticks used to validate a signal.
+ */
+const VALIDATION_FORWARD_TICKS = 5;
+
+/*
+ * Minimum movement required to count a validation
+ * as a directional result.
+ *
+ * This prevents a tiny numerical fluctuation from
+ * being treated as a meaningful win.
+ */
+const VALIDATION_MIN_MOVE_RATIO = 0.000001;
+
+
+/* ============================================================
+   AUTO SWITCHER CONFIGURATION
+============================================================ */
+
+const AUTO_SWITCH_INTERVAL = 1500;
+
+const AUTO_SWITCH_MIN_CONFIDENCE = 67;
+
+const AUTO_SWITCH_SCORE_GAP = 8;
+
+const AUTO_SWITCH_COOLDOWN = 3500;
 
 
 /* ============================================================
@@ -1535,12 +1714,63 @@ let sessionTradesValue = 0;
 let transactionItems = [];
 
 
+/* ============================================================
+   ACCURACY STATE
+============================================================ */
+
+let totalValidatedSignals = 0;
+
+let correctSignals = 0;
+
+let wrongSignals = 0;
+
+let neutralSignals = 0;
+
+let totalAlerts = 0;
+
+
 /*
- * AUTO SWITCHER STATE
+ * Pending validation records are stored independently
+ * for every market.
  *
- * These values make the switcher stateful instead of simply
- * selecting a market again every few seconds.
+ * A signal generated on 1HZ100V must be validated
+ * against 1HZ100V ticks only.
  */
+
+const pendingValidations = {};
+
+
+/*
+ * Last emitted alert state for every market.
+ *
+ * This prevents the alert system from spamming the
+ * same RISE/FALL message on every incoming tick.
+ */
+
+const lastAlertState = {};
+
+MARKETS.forEach(
+    market => {
+
+        pendingValidations[market.symbol] = [];
+
+        lastAlertState[market.symbol] = {
+
+            signal:"WAIT",
+
+            confidence:0,
+
+            timestamp:0
+
+        };
+
+    }
+);
+
+
+/* ============================================================
+   AUTO SWITCHER STATE
+============================================================ */
 
 let autoSwitcherMarket = null;
 
@@ -1549,14 +1779,6 @@ let autoSwitcherDirection = "WAIT";
 let autoSwitcherLastScore = 0;
 
 let autoSwitcherLastSwitch = 0;
-
-const AUTO_SWITCH_INTERVAL = 1500;
-
-const AUTO_SWITCH_MIN_CONFIDENCE = 55;
-
-const AUTO_SWITCH_SCORE_GAP = 7;
-
-const AUTO_SWITCH_COOLDOWN = 2500;
 
 
 /* ============================================================
@@ -1612,10 +1834,43 @@ MARKETS.forEach(
             trendStrength:
                 0,
 
+            consistency:
+                0,
+
+            shortDirection:
+                "WAIT",
+
+            mediumDirection:
+                "WAIT",
+
+            longDirection:
+                "WAIT",
+
+            lastReturn:
+                0,
+
+            averageReturn:
+                0,
+
             lastUpdate:
                 null,
 
             sampleCount:
+                0,
+
+            lastSignalAt:
+                0,
+
+            signalCount:
+                0,
+
+            validatedCount:
+                0,
+
+            correctCount:
+                0,
+
+            wrongCount:
                 0
 
         };
@@ -1679,6 +1934,12 @@ const summaryTicks =
 const summaryMarkets =
     document.getElementById("summaryMarkets");
 
+const summaryAccuracy =
+    document.getElementById("summaryAccuracy");
+
+const summaryAlerts =
+    document.getElementById("summaryAlerts");
+
 const accountId =
     document.getElementById("accountId");
 
@@ -1712,8 +1973,8 @@ const riskStatus =
 const sessionPL =
     document.getElementById("sessionPL");
 
-const sessionTrades =
-    document.getElementById("sessionTrades");
+const validatedSignals =
+    document.getElementById("validatedSignals");
 
 const aiHeadline =
     document.getElementById("aiHeadline");
@@ -1763,6 +2024,21 @@ const executionDecision =
 const transactionList =
     document.getElementById("transactionList");
 
+const alertList =
+    document.getElementById("alertList");
+
+const validationTotal =
+    document.getElementById("validationTotal");
+
+const validationCorrect =
+    document.getElementById("validationCorrect");
+
+const validationWrong =
+    document.getElementById("validationWrong");
+
+const validationExplanation =
+    document.getElementById("validationExplanation");
+
 
 /* ============================================================
    LOGGING
@@ -1790,6 +2066,419 @@ function log(message){
         );
 
     }
+
+}
+
+
+/* ============================================================
+   ALERT ENGINE
+============================================================ */
+
+function addAlert(
+    symbol,
+    signal,
+    confidence,
+    message
+){
+
+    totalAlerts++;
+
+    summaryAlerts.textContent =
+        totalAlerts;
+
+    const empty =
+        alertList.querySelector(
+            ".log-line"
+        );
+
+    if(empty){
+
+        alertList.innerHTML = "";
+
+    }
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "alert-item " +
+        (
+            signal === "RISE"
+                ? "alert-rise"
+                : signal === "FALL"
+                    ? "alert-fall"
+                    : "alert-neutral"
+        );
+
+    item.innerHTML = `
+
+        <strong>
+            ${escapeHtml(
+                signal
+            )} · ${escapeHtml(
+                symbol
+            )} · ${confidence}%
+        </strong>
+
+        <span>
+            ${escapeHtml(
+                message
+            )} · ${new Date().toLocaleTimeString()}
+        </span>
+
+    `;
+
+    alertList.prepend(
+        item
+    );
+
+    while(
+        alertList.children.length > 50
+    ){
+
+        alertList.removeChild(
+            alertList.lastChild
+        );
+
+    }
+
+}
+
+
+/*
+ * Emit an alert only when the signal genuinely changes
+ * or when a substantially stronger setup appears.
+ */
+
+function maybeCreateSignalAlert(
+    state
+){
+
+    if(
+        !state ||
+        state.signal === "WAIT" ||
+        state.confidence <
+            SIGNAL_CONFIDENCE_THRESHOLD
+    ){
+
+        return;
+
+    }
+
+    const previous =
+        lastAlertState[
+            state.symbol
+        ];
+
+    const now =
+        Date.now();
+
+    const directionChanged =
+        previous.signal !==
+        state.signal;
+
+    const confidenceImproved =
+        state.confidence >=
+            previous.confidence + 8;
+
+    const cooldownPassed =
+        now -
+        previous.timestamp >=
+        SIGNAL_COOLDOWN;
+
+    if(
+        (
+            directionChanged ||
+            confidenceImproved
+        ) &&
+        cooldownPassed
+    ){
+
+        const message =
+            directionChanged
+                ? "New directional signal detected from live tick analysis."
+                : "Signal strengthened after additional live ticks.";
+
+        addAlert(
+            state.symbol,
+            state.signal,
+            state.confidence,
+            message
+        );
+
+        lastAlertState[
+            state.symbol
+        ] = {
+
+            signal:
+                state.signal,
+
+            confidence:
+                state.confidence,
+
+            timestamp:
+                now
+
+        };
+
+        state.signalCount++;
+
+        /*
+         * Create a validation record at the exact tick
+         * where the signal was generated.
+         */
+        pendingValidations[
+            state.symbol
+        ].push({
+
+            signal:
+                state.signal,
+
+            entryPrice:
+                state.lastPrice,
+
+            createdAt:
+                now,
+
+            remainingTicks:
+                VALIDATION_FORWARD_TICKS
+
+        });
+
+        log(
+            `SIGNAL ALERT: ${state.name} → ${state.signal} at ${state.confidence}% confidence.`
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   SIGNAL VALIDATION
+============================================================ */
+
+function validatePendingSignals(
+    state,
+    currentPrice
+){
+
+    const queue =
+        pendingValidations[
+            state.symbol
+        ];
+
+    if(
+        !queue ||
+        !queue.length
+    ){
+
+        return;
+
+    }
+
+    for(
+        let i = queue.length - 1;
+        i >= 0;
+        i--
+    ){
+
+        const prediction =
+            queue[i];
+
+        prediction.remainingTicks--;
+
+        if(
+            prediction.remainingTicks >
+            0
+        ){
+
+            continue;
+
+        }
+
+        const entry =
+            Number(
+                prediction.entryPrice
+            );
+
+        const exit =
+            Number(
+                currentPrice
+            );
+
+        const movement =
+            exit -
+            entry;
+
+        const scale =
+            Math.max(
+                Math.abs(entry),
+                1
+            );
+
+        const movementRatio =
+            Math.abs(
+                movement
+            ) /
+            scale;
+
+        let result =
+            "NEUTRAL";
+
+        if(
+            movementRatio >=
+            VALIDATION_MIN_MOVE_RATIO
+        ){
+
+            if(
+                prediction.signal ===
+                "RISE"
+            ){
+
+                result =
+                    movement > 0
+                        ? "CORRECT"
+                        : "WRONG";
+
+            }else if(
+                prediction.signal ===
+                "FALL"
+            ){
+
+                result =
+                    movement < 0
+                        ? "CORRECT"
+                        : "WRONG";
+
+            }
+
+        }
+
+        totalValidatedSignals++;
+
+        state.validatedCount++;
+
+        if(result === "CORRECT"){
+
+            correctSignals++;
+
+            state.correctCount++;
+
+        }else if(result === "WRONG"){
+
+            wrongSignals++;
+
+            state.wrongCount++;
+
+        }else{
+
+            neutralSignals++;
+
+        }
+
+        queue.splice(
+            i,
+            1
+        );
+
+        updateAccuracyDisplay();
+
+        log(
+            `VALIDATION: ${state.name} ${prediction.signal} → ${result} after ${VALIDATION_FORWARD_TICKS} ticks.`
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   ACCURACY DISPLAY
+============================================================ */
+
+function getAccuracy(){
+
+    if(
+        totalValidatedSignals === 0
+    ){
+
+        return null;
+
+    }
+
+    const directionalResults =
+        correctSignals +
+        wrongSignals;
+
+    if(
+        directionalResults === 0
+    ){
+
+        return null;
+
+    }
+
+    return (
+        correctSignals /
+        directionalResults
+    ) * 100;
+
+}
+
+
+function updateAccuracyDisplay(){
+
+    const accuracy =
+        getAccuracy();
+
+    summaryAccuracy.classList.remove(
+        "accuracy-good",
+        "accuracy-neutral"
+    );
+
+    if(
+        accuracy === null
+    ){
+
+        summaryAccuracy.textContent =
+            "—";
+
+        summaryAccuracy.classList.add(
+            "accuracy-neutral"
+        );
+
+    }else{
+
+        summaryAccuracy.textContent =
+            `${accuracy.toFixed(1)}%`;
+
+        summaryAccuracy.classList.add(
+            accuracy >= 60
+                ? "accuracy-good"
+                : "accuracy-neutral"
+        );
+
+    }
+
+    validationTotal.textContent =
+        totalValidatedSignals;
+
+    validationCorrect.textContent =
+        correctSignals;
+
+    validationWrong.textContent =
+        wrongSignals;
+
+    validatedSignals.textContent =
+        totalValidatedSignals;
+
+    validationExplanation.textContent =
+        `Validated: ${totalValidatedSignals} · ` +
+        `Correct: ${correctSignals} · ` +
+        `Wrong: ${wrongSignals} · ` +
+        `Neutral: ${neutralSignals}. ` +
+        `Validation uses ${VALIDATION_FORWARD_TICKS} future ticks.`;
 
 }
 
@@ -1830,7 +2519,9 @@ function randomString(
     const random =
         new Uint8Array(length);
 
-    crypto.getRandomValues(random);
+    crypto.getRandomValues(
+        random
+    );
 
     return Array.from(
         random,
@@ -1867,10 +2558,14 @@ function base64UrlEncode(buffer){
 }
 
 
-async function createCodeChallenge(verifier){
+async function createCodeChallenge(
+    verifier
+){
 
     const data =
-        new TextEncoder().encode(verifier);
+        new TextEncoder().encode(
+            verifier
+        );
 
     const digest =
         await crypto.subtle.digest(
@@ -1878,7 +2573,9 @@ async function createCodeChallenge(verifier){
             data
         );
 
-    return base64UrlEncode(digest);
+    return base64UrlEncode(
+        digest
+    );
 
 }
 
@@ -1979,7 +2676,9 @@ async function handleOAuthCallback(){
     if(error){
 
         const description =
-            params.get("error_description");
+            params.get(
+                "error_description"
+            );
 
         oauthStatus.textContent =
             "Deriv login was cancelled or rejected: " +
@@ -2219,7 +2918,9 @@ async function loadAuthenticatedAccounts(){
             );
 
         const accounts =
-            extractAccounts(data);
+            extractAccounts(
+                data
+            );
 
         if(!accounts.length){
 
@@ -2284,11 +2985,15 @@ async function loadAuthenticatedAccounts(){
    ACCOUNT RESPONSE NORMALIZATION
 ============================================================ */
 
-function extractAccounts(data){
+function extractAccounts(
+    data
+){
 
     if(
         data &&
-        Array.isArray(data.data)
+        Array.isArray(
+            data.data
+        )
     ){
 
         return data.data.filter(
@@ -2311,7 +3016,9 @@ function extractAccounts(data){
 
     if(
         data &&
-        Array.isArray(data.accounts)
+        Array.isArray(
+            data.accounts
+        )
     ){
 
         return data.accounts.filter(
@@ -2334,7 +3041,9 @@ function extractApiError(
 
     if(
         data &&
-        Array.isArray(data.errors) &&
+        Array.isArray(
+            data.errors
+        ) &&
         data.errors.length
     ){
 
@@ -2366,7 +3075,9 @@ function renderAccountSelector(){
         account => {
 
             const option =
-                document.createElement("option");
+                document.createElement(
+                    "option"
+                );
 
             const type =
                 String(
@@ -2440,7 +3151,9 @@ async function selectAccount(
    ACCOUNT DISPLAY
 ============================================================ */
 
-function getAccountTypeLabel(account){
+function getAccountTypeLabel(
+    account
+){
 
     const type =
         String(
@@ -2607,7 +3320,9 @@ async function connectAuthenticatedAccount(){
             );
 
         accountWsUrl =
-            extractWebSocketUrl(data);
+            extractWebSocketUrl(
+                data
+            );
 
         if(!accountWsUrl){
 
@@ -2713,7 +3428,9 @@ async function connectAuthenticatedAccount(){
 }
 
 
-function extractWebSocketUrl(data){
+function extractWebSocketUrl(
+    data
+){
 
     const candidates = [
 
@@ -2744,7 +3461,8 @@ function subscribeAccountStreams(){
 
     if(
         !accountWs ||
-        accountWs.readyState !== WebSocket.OPEN
+        accountWs.readyState !==
+        WebSocket.OPEN
     ){
 
         return;
@@ -2778,7 +3496,9 @@ function subscribeAccountStreams(){
 }
 
 
-function handleAccountMessage(data){
+function handleAccountMessage(
+    data
+){
 
     if(data.error){
 
@@ -2843,7 +3563,9 @@ function handleAccountMessage(data){
    TRANSACTIONS
 ============================================================ */
 
-function addTransaction(transaction){
+function addTransaction(
+    transaction
+){
 
     transactionItems.unshift(
         transaction
@@ -2879,7 +3601,9 @@ function renderTransactions(){
         transaction => {
 
             const item =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             item.className =
                 "transaction-item";
@@ -2938,13 +3662,17 @@ function renderTransactions(){
 
                     <strong>
                         ${escapeHtml(
-                            String(action).toUpperCase()
+                            String(
+                                action
+                            ).toUpperCase()
                         )}
                     </strong>
 
                     <span>
                         ${escapeHtml(
-                            String(symbol)
+                            String(
+                                symbol
+                            )
                         )} · ${time}
                     </span>
 
@@ -2953,7 +3681,9 @@ function renderTransactions(){
                 <div class="transaction-right">
 
                     <span class="${amountClass}">
-                        ${escapeHtml(amountText)}
+                        ${escapeHtml(
+                            amountText
+                        )}
                     </span>
 
                 </div>
@@ -2970,7 +3700,9 @@ function renderTransactions(){
 }
 
 
-function escapeHtml(value){
+function escapeHtml(
+    value
+){
 
     return String(value)
         .replace(/&/g,"&amp;")
@@ -2986,7 +3718,9 @@ function escapeHtml(value){
    CONNECTION STATUS
 ============================================================ */
 
-function setConnectionState(connected){
+function setConnectionState(
+    connected
+){
 
     if(connected){
 
@@ -3031,7 +3765,9 @@ function renderMarkets(){
         market => {
 
             const card =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             card.className =
                 "market-card";
@@ -3046,11 +3782,15 @@ function renderMarkets(){
                     <div>
 
                         <div class="market-name">
-                            ${escapeHtml(market.name)}
+                            ${escapeHtml(
+                                market.name
+                            )}
                         </div>
 
                         <div class="market-symbol">
-                            ${escapeHtml(market.symbol)}
+                            ${escapeHtml(
+                                market.symbol
+                            )}
                         </div>
 
                     </div>
@@ -3110,10 +3850,39 @@ function renderMarkets(){
                     WAIT
                 </div>
 
+                <div class="validation-row">
+
+                    <span>
+                        Short:
+                        <strong id="short-${market.symbol}">
+                            WAIT
+                        </strong>
+                    </span>
+
+                    <span>
+                        Medium:
+                        <strong id="medium-${market.symbol}">
+                            WAIT
+                        </strong>
+                    </span>
+
+                    <span>
+                        Long:
+                        <strong id="long-${market.symbol}">
+                            WAIT
+                        </strong>
+                    </span>
+
+                </div>
+
                 <div class="market-footer">
 
                     <span id="sample-${market.symbol}">
                         Samples: 0
+                    </span>
+
+                    <span id="validated-${market.symbol}">
+                        Validated: 0
                     </span>
 
                     <span id="updated-${market.symbol}">
@@ -3129,7 +3898,9 @@ function renderMarkets(){
             );
 
             const option =
-                document.createElement("option");
+                document.createElement(
+                    "option"
+                );
 
             option.value =
                 market.symbol;
@@ -3154,7 +3925,9 @@ function renderMarkets(){
    MARKET CARD UPDATE
 ============================================================ */
 
-function updateMarketCard(symbol){
+function updateMarketCard(
+    symbol
+){
 
     const state =
         marketState[symbol];
@@ -3210,6 +3983,26 @@ function updateMarketCard(symbol){
             `updated-${symbol}`
         );
 
+    const shortElement =
+        document.getElementById(
+            `short-${symbol}`
+        );
+
+    const mediumElement =
+        document.getElementById(
+            `medium-${symbol}`
+        );
+
+    const longElement =
+        document.getElementById(
+            `long-${symbol}`
+        );
+
+    const validatedElement =
+        document.getElementById(
+            `validated-${symbol}`
+        );
+
     if(price){
 
         price.textContent =
@@ -3231,14 +4024,14 @@ function updateMarketCard(symbol){
     if(momentum){
 
         momentum.textContent =
-            state.momentum.toFixed(5);
+            state.momentum.toFixed(6);
 
     }
 
     if(volatility){
 
         volatility.textContent =
-            state.volatility.toFixed(5);
+            state.volatility.toFixed(6);
 
     }
 
@@ -3246,6 +4039,27 @@ function updateMarketCard(symbol){
 
         confidence.textContent =
             `${state.confidence}%`;
+
+    }
+
+    if(shortElement){
+
+        shortElement.textContent =
+            state.shortDirection;
+
+    }
+
+    if(mediumElement){
+
+        mediumElement.textContent =
+            state.mediumDirection;
+
+    }
+
+    if(longElement){
+
+        longElement.textContent =
+            state.longDirection;
 
     }
 
@@ -3257,7 +4071,8 @@ function updateMarketCard(symbol){
         signal.classList.remove(
             "buy",
             "sell",
-            "wait"
+            "wait",
+            "neutral"
         );
 
         if(
@@ -3265,18 +4080,24 @@ function updateMarketCard(symbol){
             "RISE"
         ){
 
-            signal.classList.add("buy");
+            signal.classList.add(
+                "buy"
+            );
 
         }else if(
             state.signal ===
             "FALL"
         ){
 
-            signal.classList.add("sell");
+            signal.classList.add(
+                "sell"
+            );
 
         }else{
 
-            signal.classList.add("wait");
+            signal.classList.add(
+                "wait"
+            );
 
         }
 
@@ -3287,7 +4108,10 @@ function updateMarketCard(symbol){
         stateElement.textContent =
             state.lastPrice === null
                 ? "WAITING"
-                : "LIVE";
+                : state.sampleCount <
+                  MIN_TICKS_FOR_ANALYSIS
+                    ? "BUILDING"
+                    : "LIVE";
 
     }
 
@@ -3295,6 +4119,13 @@ function updateMarketCard(symbol){
 
         sample.textContent =
             `Samples: ${state.sampleCount}`;
+
+    }
+
+    if(validatedElement){
+
+        validatedElement.textContent =
+            `Validated: ${state.validatedCount}`;
 
     }
 
@@ -3312,7 +4143,9 @@ function updateMarketCard(symbol){
 }
 
 
-function formatPrice(price){
+function formatPrice(
+    price
+){
 
     const numeric =
         Number(price);
@@ -3341,18 +4174,178 @@ function formatPrice(price){
 
 
 /* ============================================================
-   MARKET ANALYSIS ENGINE
+   DIRECTIONAL WINDOW
 ============================================================ */
 
-function analyzeMarket(symbol){
+function calculateWindowDirection(
+    prices,
+    windowSize
+){
+
+    if(
+        prices.length <
+        windowSize + 1
+    ){
+
+        return {
+            direction:"WAIT",
+            score:0
+        };
+
+    }
+
+    const start =
+        prices.length -
+        windowSize -
+        1;
+
+    let up = 0;
+
+    let down = 0;
+
+    let totalReturn = 0;
+
+    for(
+        let i = start + 1;
+        i < prices.length;
+        i++
+    ){
+
+        const previous =
+            prices[i - 1];
+
+        const current =
+            prices[i];
+
+        if(
+            previous === 0
+        ){
+
+            continue;
+
+        }
+
+        const change =
+            (
+                current -
+                previous
+            ) /
+            Math.abs(previous);
+
+        totalReturn +=
+            change;
+
+        if(change > 0){
+
+            up++;
+
+        }else if(change < 0){
+
+            down++;
+
+        }
+
+    }
+
+    const total =
+        up +
+        down;
+
+    if(!total){
+
+        return {
+            direction:"WAIT",
+            score:0
+        };
+
+    }
+
+    const directionalBalance =
+        (
+            up -
+            down
+        ) /
+        total;
+
+    if(
+        directionalBalance > 0
+    ){
+
+        return {
+
+            direction:"RISE",
+
+            score:
+                directionalBalance,
+
+            returnPressure:
+                totalReturn
+
+        };
+
+    }
+
+    if(
+        directionalBalance < 0
+    ){
+
+        return {
+
+            direction:"FALL",
+
+            score:
+                Math.abs(
+                    directionalBalance
+                ),
+
+            returnPressure:
+                totalReturn
+
+        };
+
+    }
+
+    return {
+
+        direction:"WAIT",
+
+        score:0,
+
+        returnPressure:
+            totalReturn
+
+    };
+
+}
+
+
+/* ============================================================
+   ACCURACY-FOCUSED MARKET ANALYSIS
+============================================================ */
+
+function analyzeMarket(
+    symbol
+){
 
     const state =
         marketState[symbol];
 
     if(
-        !state ||
-        state.prices.length < 8
+        !state
     ){
+
+        return;
+
+    }
+
+    if(
+        state.prices.length <
+        MIN_TICKS_FOR_ANALYSIS
+    ){
+
+        updateMarketCard(
+            symbol
+        );
 
         return;
 
@@ -3377,19 +4370,60 @@ function analyzeMarket(symbol){
     state.previousPrice =
         previous;
 
+    /*
+     * Three independent time windows.
+     */
+    const short =
+        calculateWindowDirection(
+            prices,
+            8
+        );
+
+    const medium =
+        calculateWindowDirection(
+            prices,
+            20
+        );
+
+    const long =
+        calculateWindowDirection(
+            prices,
+            40
+        );
+
+    state.shortDirection =
+        short.direction;
+
+    state.mediumDirection =
+        medium.direction;
+
+    state.longDirection =
+        long.direction;
+
+    /*
+     * Rolling movement statistics.
+     */
     const recent =
         prices.slice(
             Math.max(
                 0,
-                prices.length - 30
+                prices.length - 40
             )
         );
 
-    let movement = 0;
+    let movement =
+        0;
 
-    let upMoves = 0;
+    let upMoves =
+        0;
 
-    let downMoves = 0;
+    let downMoves =
+        0;
+
+    let absoluteMovement =
+        0;
+
+    const returns = [];
 
     for(
         let i = 1;
@@ -3397,11 +4431,23 @@ function analyzeMarket(symbol){
         i++
     ){
 
-        const delta =
-            recent[i] -
+        const previousPrice =
             recent[i - 1];
 
-        movement += delta;
+        const currentPrice =
+            recent[i];
+
+        const delta =
+            currentPrice -
+            previousPrice;
+
+        movement +=
+            delta;
+
+        absoluteMovement +=
+            Math.abs(
+                delta
+            );
 
         if(delta > 0){
 
@@ -3410,6 +4456,19 @@ function analyzeMarket(symbol){
         }else if(delta < 0){
 
             downMoves++;
+
+        }
+
+        if(
+            previousPrice !== 0
+        ){
+
+            returns.push(
+                delta /
+                Math.abs(
+                    previousPrice
+                )
+            );
 
         }
 
@@ -3424,9 +4483,32 @@ function analyzeMarket(symbol){
     state.momentum =
         movement;
 
+    state.lastReturn =
+        returns.length
+            ? returns[
+                returns.length - 1
+              ]
+            : 0;
+
+    state.averageReturn =
+        returns.length
+            ? returns.reduce(
+                (
+                    sum,
+                    value
+                ) =>
+                    sum + value,
+                0
+              ) /
+              returns.length
+            : 0;
+
     const mean =
         recent.reduce(
-            (sum,value) =>
+            (
+                sum,
+                value
+            ) =>
                 sum + value,
             0
         ) /
@@ -3434,10 +4516,14 @@ function analyzeMarket(symbol){
 
     const variance =
         recent.reduce(
-            (sum,value) =>
+            (
+                sum,
+                value
+            ) =>
                 sum +
                 Math.pow(
-                    value - mean,
+                    value -
+                    mean,
                     2
                 ),
             0
@@ -3449,58 +4535,189 @@ function analyzeMarket(symbol){
             variance
         );
 
-    const recentRange =
-        Math.max(...recent) -
-        Math.min(...recent);
+    /*
+     * Directional consistency:
+     *
+     * How much of the recent movement agrees with
+     * the eventual direction.
+     */
+    const directionalTotal =
+        upMoves +
+        downMoves;
 
-    const directionalRatio =
-        recent.length > 1
+    const directionalBalance =
+        directionalTotal
             ? Math.abs(
                 upMoves -
                 downMoves
-            ) /
-              (
-                upMoves +
-                downMoves ||
-                1
-              )
+              ) /
+              directionalTotal
             : 0;
 
-    const normalizedMomentum =
-        recentRange > 0
-            ? Math.min(
-                1,
-                Math.abs(
-                    movement
-                ) /
-                recentRange
+    /*
+     * Agreement between windows.
+     */
+    let agreement =
+        0;
+
+    let direction =
+        "WAIT";
+
+    if(
+        short.direction !== "WAIT" &&
+        short.direction ===
+        medium.direction
+    ){
+
+        agreement +=
+            0.45;
+
+        direction =
+            short.direction;
+
+    }
+
+    if(
+        direction !== "WAIT" &&
+        long.direction ===
+        direction
+    ){
+
+        agreement +=
+            0.30;
+
+    }
+
+    /*
+     * If short and medium agree but long is unavailable,
+     * we still allow analysis, but with less confidence.
+     */
+    if(
+        direction === "WAIT" &&
+        short.direction !== "WAIT" &&
+        medium.direction !== "WAIT" &&
+        short.direction ===
+        medium.direction
+    ){
+
+        direction =
+            short.direction;
+
+        agreement =
+            0.45;
+
+    }
+
+    /*
+     * Recent pressure.
+     */
+    const latestWindow =
+        returns.slice(
+            Math.max(
+                0,
+                returns.length - 8
             )
-            : 0;
-
-    const pressure =
-        upMoves >
-        downMoves
-            ? "RISE"
-            : downMoves >
-              upMoves
-                ? "FALL"
-                : "FLAT";
-
-    state.direction =
-        pressure === "FLAT"
-            ? "FLAT"
-            : pressure;
-
-    state.trendStrength =
-        (
-            directionalRatio *
-            0.55
-        ) +
-        (
-            normalizedMomentum *
-            0.45
         );
 
+    const positiveReturns =
+        latestWindow.filter(
+            value =>
+                value > 0
+        ).length;
+
+    const negativeReturns =
+        latestWindow.filter(
+            value =>
+                value < 0
+        ).length;
+
+    const pressureTotal =
+        positiveReturns +
+        negativeReturns;
+
+    const pressure =
+        pressureTotal
+            ? Math.abs(
+                positiveReturns -
+                negativeReturns
+              ) /
+              pressureTotal
+            : 0;
+
+    /*
+     * Momentum direction.
+     */
+    const returnDirection =
+        state.averageReturn > 0
+            ? "RISE"
+            : state.averageReturn < 0
+                ? "FALL"
+                : "WAIT";
+
+    if(
+        direction !== "WAIT" &&
+        returnDirection ===
+        direction
+    ){
+
+        agreement +=
+            0.15;
+
+    }
+
+    /*
+     * Last short window must not strongly disagree.
+     */
+    if(
+        direction !== "WAIT" &&
+        short.direction ===
+        direction
+    ){
+
+        agreement +=
+            0.10;
+
+    }
+
+    state.consistency =
+        Math.min(
+            1,
+            agreement
+        );
+
+    /*
+     * Trend strength combines:
+     *
+     *  - multi-window agreement
+     *  - directional balance
+     *  - recent pressure
+     *
+     * This is much more selective than the old
+     * simple upMoves/downMoves calculation.
+     */
+    const trendStrength =
+        (
+            state.consistency *
+            0.50
+        ) +
+        (
+            directionalBalance *
+            0.30
+        ) +
+        (
+            pressure *
+            0.20
+        );
+
+    state.trendStrength =
+        Math.min(
+            1,
+            trendStrength
+        );
+
+    /*
+     * Confidence is deliberately conservative.
+     */
     state.confidence =
         Math.max(
             0,
@@ -3513,21 +4730,35 @@ function analyzeMarket(symbol){
             )
         );
 
+    /*
+     * Strong signal conditions.
+     */
+    const enoughTicks =
+        prices.length >=
+        MIN_TICKS_FOR_SIGNAL;
+
+    const sufficientAgreement =
+        state.consistency >=
+        0.65;
+
+    const sufficientConfidence =
+        state.confidence >=
+        SIGNAL_CONFIDENCE_THRESHOLD;
+
+    const directionalPressureStrong =
+        directionalBalance >=
+        0.18;
+
     if(
-        state.confidence >= 55 &&
-        state.direction === "RISE"
+        enoughTicks &&
+        direction !== "WAIT" &&
+        sufficientAgreement &&
+        sufficientConfidence &&
+        directionalPressureStrong
     ){
 
         state.signal =
-            "RISE";
-
-    }else if(
-        state.confidence >= 55 &&
-        state.direction === "FALL"
-    ){
-
-        state.signal =
-            "FALL";
+            direction;
 
     }else{
 
@@ -3536,10 +4767,27 @@ function analyzeMarket(symbol){
 
     }
 
+    state.direction =
+        direction;
+
     state.sampleCount =
         prices.length;
 
-    updateMarketCard(symbol);
+    /*
+     * Do validation before possibly creating the next signal.
+     */
+    validatePendingSignals(
+        state,
+        latest
+    );
+
+    maybeCreateSignalAlert(
+        state
+    );
+
+    updateMarketCard(
+        symbol
+    );
 
 }
 
@@ -3548,11 +4796,14 @@ function analyzeMarket(symbol){
    SMART AI SCORING
 ============================================================ */
 
-function scoreMarket(state){
+function scoreMarket(
+    state
+){
 
     if(
         !state ||
-        state.prices.length < 8
+        state.prices.length <
+        MIN_TICKS_FOR_SIGNAL
     ){
 
         return -1;
@@ -3560,34 +4811,20 @@ function scoreMarket(state){
     }
 
     if(
-        state.signal === "WAIT"
+        state.signal ===
+        "WAIT"
     ){
 
-        return (
-            state.confidence *
-            0.35
-        );
+        return -1;
 
     }
 
     const confidenceScore =
         state.confidence;
 
-    const trendScore =
-        state.trendStrength *
+    const consistencyScore =
+        state.consistency *
         100;
-
-    const momentumScore =
-        Math.min(
-            100,
-            Math.abs(
-                state.momentum
-            ) /
-            (
-                state.volatility ||
-                0.000001
-            )
-        );
 
     const directionalPressure =
         Math.abs(
@@ -3601,14 +4838,30 @@ function scoreMarket(state){
         ) *
         100;
 
+    const momentumAlignment =
+        (
+            state.signal === "RISE" &&
+            state.averageReturn > 0
+        ) ||
+        (
+            state.signal === "FALL" &&
+            state.averageReturn < 0
+        )
+            ? 100
+            : 0;
+
     return (
-        confidenceScore * 0.40 +
-        trendScore * 0.25 +
-        Math.min(
-            100,
-            momentumScore
-        ) * 0.15 +
-        directionalPressure * 0.20
+        confidenceScore *
+        0.40 +
+
+        consistencyScore *
+        0.30 +
+
+        directionalPressure *
+        0.15 +
+
+        momentumAlignment *
+        0.15
     );
 
 }
@@ -3632,7 +4885,10 @@ function selectSmartMarket(){
                     state
                 );
 
-            if(score > bestScore){
+            if(
+                score >
+                bestScore
+            ){
 
                 bestScore =
                     score;
@@ -3646,8 +4902,13 @@ function selectSmartMarket(){
     );
 
     return {
-        state:best,
-        score:bestScore
+
+        state:
+            best,
+
+        score:
+            bestScore
+
     };
 
 }
@@ -3669,7 +4930,7 @@ function displaySmartSelection(
     ){
 
         aiHeadline.textContent =
-            "Waiting for sufficient market data";
+            "Waiting for a strong validated setup";
 
         aiMarket.textContent =
             "—";
@@ -3684,7 +4945,7 @@ function displaySmartSelection(
             "0%";
 
         aiReason.textContent =
-            "The engine needs more live observations before selecting a market.";
+            "No market currently satisfies the minimum tick history, directional agreement and confidence requirements.";
 
         return;
 
@@ -3702,19 +4963,22 @@ function displaySmartSelection(
     aiScoreBar.style.width =
         `${Math.min(
             100,
-            Math.round(score)
+            Math.round(
+                score
+            )
         )}%`;
 
     aiHeadline.textContent =
         automatic
             ? "APEX Auto Switcher active"
-            : "Smart AI selected current setup";
+            : "Smart AI selected strongest setup";
 
     aiReason.textContent =
-        `${state.name} currently has ${state.confidence}% analysis confidence, ` +
-        `${state.upMoves} upward moves vs ${state.downMoves} downward moves ` +
-        `in the rolling sample. ` +
-        `Live direction: ${state.signal}.`;
+        `${state.name} · ${state.signal} · ` +
+        `${state.confidence}% confidence · ` +
+        `Short ${state.shortDirection} · ` +
+        `Medium ${state.mediumDirection} · ` +
+        `Long ${state.longDirection}.`;
 
     highlightMarket(
         state.symbol
@@ -3787,10 +5051,14 @@ function runSmartAI(
    HIGHLIGHT MARKET
 ============================================================ */
 
-function highlightMarket(symbol){
+function highlightMarket(
+    symbol
+){
 
     document
-        .querySelectorAll(".market-card")
+        .querySelectorAll(
+            ".market-card"
+        )
         .forEach(
             card =>
                 card.classList.remove(
@@ -3815,12 +5083,8 @@ function highlightMarket(symbol){
 
 
 /* ============================================================
-   APEX AUTO SWITCHER
+   AUTO SWITCHER
 ============================================================ */
-
-/*
- * Returns every market that has a currently usable direction.
- */
 
 function getDirectionalCandidates(){
 
@@ -3829,11 +5093,17 @@ function getDirectionalCandidates(){
     )
     .filter(
         state =>
-            state.prices.length >= 8 &&
+            state.prices.length >=
+                MIN_TICKS_FOR_SIGNAL &&
+
             (
-                state.signal === "RISE" ||
-                state.signal === "FALL"
+                state.signal ===
+                "RISE" ||
+
+                state.signal ===
+                "FALL"
             ) &&
+
             state.confidence >=
                 AUTO_SWITCH_MIN_CONFIDENCE
     )
@@ -3845,11 +5115,18 @@ function getDirectionalCandidates(){
                 state,
 
                 score:
-                    scoreMarket(state)
+                    scoreMarket(
+                        state
+                    )
 
             };
 
         }
+    )
+    .filter(
+        item =>
+            item.score >=
+            AUTO_SWITCH_MIN_CONFIDENCE
     )
     .sort(
         (a,b) =>
@@ -3860,21 +5137,11 @@ function getDirectionalCandidates(){
 }
 
 
-/*
- * This is the actual switching decision.
- *
- * It considers:
- *
- * 1. Current market.
- * 2. Current direction.
- * 3. Stronger opposite-direction signals.
- * 4. A stronger market elsewhere.
- * 5. A small cooldown to stop noisy tick-by-tick flipping.
- */
-
 function evaluateAutoSwitcher(){
 
-    if(!autoSwitcherEnabled){
+    if(
+        !autoSwitcherEnabled
+    ){
 
         return;
 
@@ -3883,7 +5150,9 @@ function evaluateAutoSwitcher(){
     const candidates =
         getDirectionalCandidates();
 
-    if(!candidates.length){
+    if(
+        !candidates.length
+    ){
 
         autoSwitcherDirection =
             "WAIT";
@@ -3892,7 +5161,7 @@ function evaluateAutoSwitcher(){
             0;
 
         aiHeadline.textContent =
-            "Auto Switcher waiting for a valid setup";
+            "Auto Switcher waiting for strong evidence";
 
         aiMarket.textContent =
             "—";
@@ -3907,10 +5176,10 @@ function evaluateAutoSwitcher(){
             "0%";
 
         aiReason.textContent =
-            "No market currently meets the minimum live directional threshold.";
+            "No market currently satisfies the stronger Auto Switcher threshold.";
 
         autoSwitcherStatus.textContent =
-            "ON · Waiting for a valid RISE/FALL setup.";
+            "ON · Waiting for a validated RISE/FALL setup.";
 
         executionDecision.textContent =
             "AUTO SWITCHER WAITING";
@@ -3944,8 +5213,11 @@ function evaluateAutoSwitcher(){
     const currentStillValid =
         current &&
         (
-            current.signal === "RISE" ||
-            current.signal === "FALL"
+            current.signal ===
+            "RISE" ||
+
+            current.signal ===
+            "FALL"
         ) &&
         current.confidence >=
             AUTO_SWITCH_MIN_CONFIDENCE;
@@ -3953,12 +5225,12 @@ function evaluateAutoSwitcher(){
     const bestIsSameMarket =
         current &&
         best.state.symbol ===
-            current.symbol;
+        current.symbol;
 
     const directionChanged =
         current &&
         current.signal !==
-            best.state.signal;
+        best.state.signal;
 
     const strongerAlternative =
         current &&
@@ -3975,33 +5247,20 @@ function evaluateAutoSwitcher(){
         !currentStillValid;
 
     const cooldownPassed =
-        (
-            now -
-            autoSwitcherLastSwitch
-        ) >=
+        now -
+        autoSwitcherLastSwitch >=
         AUTO_SWITCH_COOLDOWN;
-
-
-    /*
-     * First valid setup.
-     */
 
     if(firstSelection){
 
         switchAutoSetup(
             best,
-            "initial setup"
+            "initial validated setup"
         );
 
         return;
 
     }
-
-
-    /*
-     * If the existing setup becomes invalid,
-     * move to the strongest valid setup.
-     */
 
     if(
         currentLostSignal &&
@@ -4010,18 +5269,12 @@ function evaluateAutoSwitcher(){
 
         switchAutoSetup(
             best,
-            "current setup became invalid"
+            "current setup lost validation"
         );
 
         return;
 
     }
-
-
-    /*
-     * If another market becomes materially stronger,
-     * switch to that market.
-     */
 
     if(
         strongerAlternative &&
@@ -4030,18 +5283,12 @@ function evaluateAutoSwitcher(){
 
         switchAutoSetup(
             best,
-            "stronger market detected"
+            "stronger validated market detected"
         );
 
         return;
 
     }
-
-
-    /*
-     * If the same market changes from RISE to FALL
-     * or FALL to RISE, change direction.
-     */
 
     if(
         bestIsSameMarket &&
@@ -4051,17 +5298,12 @@ function evaluateAutoSwitcher(){
 
         switchAutoSetup(
             best,
-            "direction changed"
+            "validated direction changed"
         );
 
         return;
 
     }
-
-
-    /*
-     * Keep current setup.
-     */
 
     autoSwitcherDirection =
         best.state.signal;
@@ -4076,10 +5318,6 @@ function evaluateAutoSwitcher(){
 
 }
 
-
-/*
- * Performs a real Auto Switcher state change.
- */
 
 function switchAutoSetup(
     candidate,
@@ -4132,6 +5370,7 @@ function switchAutoSetup(
         (
             oldMarket !==
             state.symbol ||
+
             oldDirection !==
             state.signal
         )
@@ -4151,11 +5390,6 @@ function switchAutoSetup(
 
 }
 
-
-/*
- * Keeps the Auto Switcher panel synchronized with
- * the currently selected live setup.
- */
 
 function updateAutoSwitcherDisplay(
     candidate,
@@ -4199,8 +5433,9 @@ function updateAutoSwitcherDisplay(
     aiReason.textContent =
         `${state.name} · ${state.signal} · ` +
         `${state.confidence}% confidence · ` +
-        `${state.upMoves} up / ${state.downMoves} down ` +
-        `in the rolling sample.`;
+        `Short ${state.shortDirection} · ` +
+        `Medium ${state.mediumDirection} · ` +
+        `Long ${state.longDirection}.`;
 
     autoSwitcherStatus.textContent =
         `ON · ${state.name} · ${state.signal} · ${state.confidence}%`;
@@ -4221,13 +5456,15 @@ function toggleAutoSwitcher(){
     autoSwitcherEnabled =
         !autoSwitcherEnabled;
 
-    if(autoSwitcherEnabled){
+    if(
+        autoSwitcherEnabled
+    ){
 
         autoSwitcherBtn.textContent =
             "Disable Auto Switcher";
 
         autoSwitcherStatus.textContent =
-            "ON · Waiting for live directional setup.";
+            "ON · Waiting for validated live setup.";
 
         autoSwitcherMarket =
             null;
@@ -4242,7 +5479,7 @@ function toggleAutoSwitcher(){
             0;
 
         log(
-            "APEX Auto Switcher enabled. Live RISE/FALL routing is active."
+            "APEX Auto Switcher enabled. Waiting for validated RISE/FALL evidence."
         );
 
         if(smartAiTimer){
@@ -4252,12 +5489,6 @@ function toggleAutoSwitcher(){
             );
 
         }
-
-        /*
-         * The switcher checks frequently enough to react
-         * to live market changes without changing the
-         * underlying tick subscriptions.
-         */
 
         smartAiTimer =
             setInterval(
@@ -4489,7 +5720,9 @@ function prepareManual(
     direction
 ){
 
-    if(!validateRisk()){
+    if(
+        !validateRisk()
+    ){
 
         manualStatus.textContent =
             "Risk configuration needs attention before preparing a setup.";
@@ -4532,41 +5765,10 @@ function prepareManual(
 
 
 /* ============================================================
-   PUBLIC MARKET DATA
+   RESET MARKET ENGINE
 ============================================================ */
 
-function connectLiveData(){
-
-    disconnectLiveData(false);
-
-    ticksReceived =
-        0;
-
-    subscriptions =
-        0;
-
-    summaryTicks.textContent =
-        "0";
-
-    summarySubscriptions.textContent =
-        "0";
-
-    /*
-     * Reset Auto Switcher selection whenever
-     * a fresh market feed is started.
-     */
-
-    autoSwitcherMarket =
-        null;
-
-    autoSwitcherDirection =
-        "WAIT";
-
-    autoSwitcherLastScore =
-        0;
-
-    autoSwitcherLastSwitch =
-        0;
+function resetMarketEngine(){
 
     Object.values(
         marketState
@@ -4595,9 +5797,47 @@ function connectLiveData(){
 
             state.trendStrength = 0;
 
+            state.consistency = 0;
+
+            state.shortDirection = "WAIT";
+
+            state.mediumDirection = "WAIT";
+
+            state.longDirection = "WAIT";
+
+            state.lastReturn = 0;
+
+            state.averageReturn = 0;
+
             state.lastUpdate = null;
 
             state.sampleCount = 0;
+
+            state.lastSignalAt = 0;
+
+            state.signalCount = 0;
+
+            state.validatedCount = 0;
+
+            state.correctCount = 0;
+
+            state.wrongCount = 0;
+
+            pendingValidations[
+                state.symbol
+            ] = [];
+
+            lastAlertState[
+                state.symbol
+            ] = {
+
+                signal:"WAIT",
+
+                confidence:0,
+
+                timestamp:0
+
+            };
 
             updateMarketCard(
                 state.symbol
@@ -4605,6 +5845,65 @@ function connectLiveData(){
 
         }
     );
+
+    totalValidatedSignals = 0;
+
+    correctSignals = 0;
+
+    wrongSignals = 0;
+
+    neutralSignals = 0;
+
+    totalAlerts = 0;
+
+    summaryAlerts.textContent =
+        "0";
+
+    updateAccuracyDisplay();
+
+    alertList.innerHTML =
+        `<div class="log-line">
+            Waiting for a qualifying live signal...
+        </div>`;
+
+}
+
+
+/* ============================================================
+   PUBLIC MARKET DATA
+============================================================ */
+
+function connectLiveData(){
+
+    disconnectLiveData(
+        false
+    );
+
+    ticksReceived =
+        0;
+
+    subscriptions =
+        0;
+
+    summaryTicks.textContent =
+        "0";
+
+    summarySubscriptions.textContent =
+        "0";
+
+    resetMarketEngine();
+
+    autoSwitcherMarket =
+        null;
+
+    autoSwitcherDirection =
+        "WAIT";
+
+    autoSwitcherLastScore =
+        0;
+
+    autoSwitcherLastSwitch =
+        0;
 
     log(
         "Connecting to Deriv public market data..."
@@ -4618,7 +5917,9 @@ function connectLiveData(){
     publicWs.onopen =
         function(){
 
-            setConnectionState(true);
+            setConnectionState(
+                true
+            );
 
             log(
                 "Connected to Deriv public market data."
@@ -4665,7 +5966,9 @@ function connectLiveData(){
     publicWs.onclose =
         function(){
 
-            setConnectionState(false);
+            setConnectionState(
+                false
+            );
 
             log(
                 "Market data connection closed."
@@ -4675,6 +5978,10 @@ function connectLiveData(){
 
 }
 
+
+/* ============================================================
+   MARKET SUBSCRIPTIONS
+============================================================ */
 
 function requestMarkets(){
 
@@ -4699,7 +6006,10 @@ function requestMarkets(){
     );
 
     MARKETS.forEach(
-        (market,index) => {
+        (
+            market,
+            index
+        ) => {
 
             publicWs.send(
                 JSON.stringify({
@@ -4710,7 +6020,8 @@ function requestMarkets(){
                     subscribe:1,
 
                     req_id:
-                        2000 + index
+                        2000 +
+                        index
 
                 })
             );
@@ -4724,7 +6035,7 @@ function requestMarkets(){
         subscriptions;
 
     log(
-        `Subscribed to ${MARKETS.length} selected markets.`
+        `Subscribed to exactly ${MARKETS.length} selected markets.`
     );
 
 }
@@ -4734,7 +6045,9 @@ function requestMarkets(){
    DERIV MESSAGE HANDLER
 ============================================================ */
 
-function handleDerivMessage(data){
+function handleDerivMessage(
+    data
+){
 
     if(data.error){
 
@@ -4786,7 +6099,13 @@ function handleDerivMessage(data){
 }
 
 
-function processTick(tick){
+/* ============================================================
+   REAL TICK PROCESSING
+============================================================ */
+
+function processTick(
+    tick
+){
 
     const symbol =
         tick.symbol ||
@@ -4807,13 +6126,19 @@ function processTick(tick){
         );
 
     if(
-        !Number.isFinite(price)
+        !Number.isFinite(
+            price
+        )
     ){
 
         return;
 
     }
 
+    /*
+     * Each market receives and stores only its
+     * own ticks.
+     */
     state.prices.push(
         price
     );
@@ -4838,41 +6163,40 @@ function processTick(tick){
     summaryTicks.textContent =
         ticksReceived;
 
+    /*
+     * Analyze immediately after every real tick.
+     */
     analyzeMarket(
         symbol
     );
 
-
     /*
-     * AUTO SWITCHER:
-     *
-     * Evaluate immediately after enough fresh
-     * market information exists. The internal
-     * cooldown prevents rapid oscillation.
+     * Auto Switcher reassesses the entire market set
+     * using current validated information.
      */
-
     if(
         autoSwitcherEnabled &&
-        state.prices.length >= 8
+        state.prices.length >=
+        MIN_TICKS_FOR_ANALYSIS
     ){
 
         evaluateAutoSwitcher();
 
     }
 
-
     /*
-     * Normal Smart AI remains available when
-     * Auto Switcher is OFF.
+     * Smart AI remains available when Auto Switcher
+     * is not controlling the selection.
      */
-
     if(
         ticksReceived % 25 ===
         0 &&
         !autoSwitcherEnabled
     ){
 
-        runSmartAI(false);
+        runSmartAI(
+            false
+        );
 
     }
 
@@ -4900,7 +6224,9 @@ function disconnectLiveData(
 
     }
 
-    setConnectionState(false);
+    setConnectionState(
+        false
+    );
 
     if(writeLog){
 
@@ -5058,7 +6384,9 @@ smartSelectBtn.addEventListener(
     "click",
     function(){
 
-        runSmartAI(false);
+        runSmartAI(
+            false
+        );
 
     }
 );
@@ -5074,7 +6402,9 @@ manualRiseBtn.addEventListener(
     "click",
     function(){
 
-        prepareManual("RISE");
+        prepareManual(
+            "RISE"
+        );
 
     }
 );
@@ -5084,7 +6414,9 @@ manualFallBtn.addEventListener(
     "click",
     function(){
 
-        prepareManual("FALL");
+        prepareManual(
+            "FALL"
+        );
 
     }
 );
@@ -5183,10 +6515,11 @@ renderTransactions();
 
 validateRisk();
 
+updateAccuracyDisplay();
+
 handleOAuthCallback();
 
 </script>
 
 </body>
 </html>
-```
