@@ -1,0 +1,4834 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CASPER LIVE DATA ANALYSIS</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent
+}
+
+:root{
+    --bg:#050814;
+    --card:#0d1321;
+    --card2:#080d18;
+    --border:#1b2940;
+    --blue:#3b82f6;
+    --purple:#8b5cf6;
+    --pink:#ec4899;
+    --green:#22c55e;
+    --yellow:#facc15;
+    --red:#ef4444;
+    --cyan:#22d3ee;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top left,rgba(59,130,246,.12),transparent 30%),
+        radial-gradient(circle at top right,rgba(139,92,246,.10),transparent 30%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,Arial,Helvetica,sans-serif;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+}
+
+.login-card{
+    width:min(480px,100%);
+    background:rgba(13,19,33,.96);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:38px;
+    box-shadow:0 30px 90px rgba(0,0,0,.45);
+    text-align:center;
+}
+
+.login-logo{
+    width:76px;
+    height:76px;
+    border-radius:22px;
+    margin:0 auto 22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    font-size:36px;
+    box-shadow:0 15px 40px rgba(59,130,246,.25);
+}
+
+.login-card h1{
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.login-card p{
+    color:var(--muted);
+    line-height:1.6;
+}
+
+.login-subtitle{
+    margin-bottom:28px;
+}
+
+.login-btn{
+    width:100%;
+    border:0;
+    border-radius:13px;
+    padding:16px 20px;
+    background:linear-gradient(135deg,#ffb000,#ff7a00);
+    color:#111827;
+    font-weight:800;
+    transition:.2s;
+}
+
+.login-btn:hover{
+    transform:translateY(-1px);
+    filter:brightness(1.06);
+}
+
+.community-btn{
+    display:block;
+    width:100%;
+    margin-top:12px;
+    padding:15px 20px;
+    border-radius:13px;
+    border:1px solid var(--border);
+    background:#111827;
+    color:white;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.login-note{
+    margin-top:18px;
+    font-size:13px;
+    color:#64748b;
+}
+
+.register-line{
+    margin-top:24px;
+    font-size:14px;
+}
+
+.register-line a{
+    color:#60a5fa;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.oauth-status{
+    margin-top:16px;
+    font-size:13px;
+    color:var(--yellow);
+    min-height:20px;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+    width:min(1200px,calc(100% - 28px));
+    margin:0 auto;
+    padding:18px 0 40px;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:15px 18px;
+    background:rgba(13,19,33,.9);
+    border:1px solid var(--border);
+    border-radius:16px;
+    position:sticky;
+    top:10px;
+    z-index:20;
+    backdrop-filter:blur(14px);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:900;
+    letter-spacing:.3px;
+}
+
+.brand-icon{
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.status-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--red);
+    box-shadow:0 0 10px rgba(239,68,68,.5);
+}
+
+.status-dot.connected{
+    background:var(--green);
+    box-shadow:0 0 10px rgba(34,197,94,.6);
+}
+
+.status-dot.account{
+    background:var(--cyan);
+    box-shadow:0 0 10px rgba(34,211,238,.6);
+}
+
+.account-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-top:14px;
+    padding:14px 18px;
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:14px;
+}
+
+.account-info{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:18px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.account-info strong{
+    color:white;
+}
+
+.account-selector{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.account-selector select{
+    min-width:175px;
+    border:1px solid var(--border);
+    background:#070c16;
+    color:white;
+    border-radius:9px;
+    padding:9px 11px;
+    outline:none;
+}
+
+.account-selector select:focus{
+    border-color:var(--blue);
+}
+
+.hero{
+    padding:35px 8px 25px;
+}
+
+.hero h1{
+    font-size:clamp(28px,5vw,46px);
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:var(--muted);
+    max-width:800px;
+    line-height:1.7;
+}
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.summary-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:18px;
+}
+
+.summary-label{
+    color:var(--muted);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+}
+
+.summary-value{
+    font-size:25px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+.section{
+    margin-top:22px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+}
+
+.section-title h2{
+    font-size:19px;
+}
+
+.panel{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:18px;
+}
+
+.config-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.field label{
+    display:block;
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+.field input,
+.field select{
+    width:100%;
+    border:1px solid var(--border);
+    background:#070c16;
+    color:white;
+    border-radius:10px;
+    padding:12px;
+    outline:none;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:var(--blue);
+}
+
+.action-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:15px;
+}
+
+.primary-btn,
+.secondary-btn,
+.danger-btn,
+.ai-btn,
+.trade-btn{
+    border:0;
+    border-radius:10px;
+    padding:12px 18px;
+    font-weight:800;
+}
+
+.primary-btn{
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    color:white;
+}
+
+.secondary-btn{
+    background:#172033;
+    color:white;
+    border:1px solid var(--border);
+}
+
+.danger-btn{
+    background:rgba(239,68,68,.12);
+    color:#fca5a5;
+    border:1px solid rgba(239,68,68,.3);
+}
+
+.ai-btn{
+    background:linear-gradient(135deg,#7c3aed,#db2777);
+    color:white;
+}
+
+.trade-btn{
+    flex:1;
+    min-width:130px;
+}
+
+.trade-rise{
+    background:rgba(34,197,94,.12);
+    color:#86efac;
+    border:1px solid rgba(34,197,94,.3);
+}
+
+.trade-fall{
+    background:rgba(239,68,68,.12);
+    color:#fca5a5;
+    border:1px solid rgba(239,68,68,.3);
+}
+
+.strategy-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.strategy-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:18px;
+}
+
+.strategy-card.active{
+    border-color:rgba(139,92,246,.65);
+    box-shadow:0 0 0 1px rgba(139,92,246,.15);
+}
+
+.strategy-card h3{
+    margin-bottom:8px;
+}
+
+.strategy-card p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.5;
+}
+
+.strategy-tag{
+    display:inline-block;
+    margin-bottom:12px;
+    padding:5px 9px;
+    border-radius:7px;
+    background:rgba(59,130,246,.1);
+    color:#93c5fd;
+    font-size:11px;
+    font-weight:800;
+}
+
+.strategy-status{
+    margin-top:12px;
+    font-size:11px;
+    color:#64748b;
+}
+
+.ai-grid{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:14px;
+}
+
+.ai-main{
+    border:1px solid rgba(139,92,246,.35);
+    background:
+        radial-gradient(circle at top right,rgba(139,92,246,.14),transparent 45%),
+        var(--card);
+}
+
+.ai-title{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    margin-bottom:14px;
+}
+
+.ai-title h3{
+    font-size:18px;
+}
+
+.premium-badge{
+    padding:5px 9px;
+    border-radius:7px;
+    font-size:10px;
+    font-weight:900;
+    background:rgba(236,72,153,.12);
+    color:#f9a8d4;
+    border:1px solid rgba(236,72,153,.25);
+}
+
+.ai-selection{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.ai-box{
+    padding:13px;
+    background:#080d18;
+    border:1px solid #152035;
+    border-radius:11px;
+}
+
+.ai-box span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+}
+
+.ai-box strong{
+    font-size:15px;
+}
+
+.ai-score{
+    margin-top:14px;
+    height:8px;
+    border-radius:10px;
+    background:#111827;
+    overflow:hidden;
+}
+
+.ai-score-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink));
+    transition:.35s;
+}
+
+.execution-note{
+    margin-top:13px;
+    color:#64748b;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.markets{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.market-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:18px;
+    transition:.2s;
+}
+
+.market-card.selected{
+    border-color:rgba(139,92,246,.65);
+    box-shadow:0 0 0 1px rgba(139,92,246,.12);
+}
+
+.market-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.market-name{
+    font-weight:900;
+}
+
+.market-symbol{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.market-state{
+    font-size:11px;
+    padding:5px 8px;
+    border-radius:7px;
+    background:rgba(34,197,94,.1);
+    color:#86efac;
+}
+
+.market-price{
+    font-size:27px;
+    font-weight:900;
+    margin:20px 0 15px;
+}
+
+.market-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+}
+
+.metric{
+    padding:10px;
+    border-radius:9px;
+    background:#080d18;
+    border:1px solid #152035;
+}
+
+.metric span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    text-transform:uppercase;
+    margin-bottom:5px;
+}
+
+.metric strong{
+    font-size:13px;
+}
+
+.signal{
+    margin-top:13px;
+    padding:11px;
+    border-radius:10px;
+    text-align:center;
+    font-weight:900;
+    background:#101827;
+    border:1px solid var(--border);
+}
+
+.signal.buy{
+    color:#86efac;
+    border-color:rgba(34,197,94,.25);
+}
+
+.signal.sell{
+    color:#fca5a5;
+    border-color:rgba(239,68,68,.25);
+}
+
+.signal.wait{
+    color:#fde68a;
+    border-color:rgba(250,204,21,.25);
+}
+
+.market-footer{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:11px;
+    color:#64748b;
+    font-size:10px;
+}
+
+.execution-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.execution-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:18px;
+}
+
+.execution-card h3{
+    margin-bottom:8px;
+}
+
+.execution-card p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.5;
+}
+
+.manual-market{
+    margin-top:15px;
+}
+
+.manual-market select{
+    width:100%;
+    background:#070c16;
+    color:white;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px;
+}
+
+.manual-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.risk-box{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:14px;
+}
+
+.risk-item{
+    background:#080d18;
+    border:1px solid #152035;
+    border-radius:10px;
+    padding:11px;
+}
+
+.risk-item span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:5px;
+}
+
+.risk-item strong{
+    font-size:13px;
+}
+
+.log{
+    max-height:300px;
+    overflow:auto;
+    font-family:Consolas,monospace;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.log-line{
+    padding:5px 0;
+    border-bottom:1px solid rgba(255,255,255,.04);
+    color:#94a3b8;
+}
+
+.transaction-list{
+    max-height:280px;
+    overflow:auto;
+}
+
+.transaction-item{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,.04);
+    font-size:12px;
+}
+
+.transaction-left strong{
+    display:block;
+    margin-bottom:3px;
+}
+
+.transaction-left span{
+    color:var(--muted);
+}
+
+.transaction-right{
+    text-align:right;
+}
+
+.transaction-right .positive{
+    color:#86efac;
+}
+
+.transaction-right .negative{
+    color:#fca5a5;
+}
+
+.transaction-right .neutral{
+    color:#cbd5e1;
+}
+
+.footer{
+    margin-top:28px;
+    text-align:center;
+    color:#64748b;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.account-status{
+    margin-top:10px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.mode-real{
+    color:#fca5a5!important;
+}
+
+.mode-demo{
+    color:#86efac!important;
+}
+
+.notice{
+    margin-top:12px;
+    padding:11px 13px;
+    border-radius:10px;
+    background:rgba(250,204,21,.06);
+    border:1px solid rgba(250,204,21,.18);
+    color:#fde68a;
+    font-size:11px;
+    line-height:1.5;
+}
+
+@media(max-width:1000px){
+    .summary,
+    .config-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .strategy-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .ai-grid,
+    .execution-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+    .app{
+        width:min(100% - 18px,1200px);
+    }
+
+    .topbar,
+    .account-bar{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .summary,
+    .config-grid,
+    .strategy-grid,
+    .markets{
+        grid-template-columns:1fr;
+    }
+
+    .market-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .ai-selection{
+        grid-template-columns:1fr;
+    }
+
+    .risk-box{
+        grid-template-columns:1fr;
+    }
+
+    .login-card{
+        padding:28px 20px;
+    }
+
+    .account-selector{
+        width:100%;
+    }
+
+    .account-selector select{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-card">
+
+        <div class="login-logo">⚡</div>
+
+        <h1>CASPER LIVE DATA ANALYSIS</h1>
+
+        <p class="login-subtitle">
+            Trade Deriv options on autopilot with live market data,
+            strategy analysis and secure Deriv authentication.
+        </p>
+
+        <button id="loginDerivBtn" class="login-btn">
+            Login with Deriv
+        </button>
+
+        <a
+            class="community-btn"
+            href="https://t.me/livederiv_dataanalysis"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Join Community
+        </a>
+
+        <div class="login-note">
+            No card required
+        </div>
+
+        <div class="register-line">
+            Don't have a Deriv account?
+            <a
+                href="https://deriv.com/signup"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Register here
+            </a>
+        </div>
+
+        <div id="oauthStatus" class="oauth-status"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN APP
+========================================================= -->
+
+<div id="mainApp" class="app hidden">
+
+    <div class="topbar">
+
+        <div class="brand">
+            <div class="brand-icon">🎯</div>
+            <div>CASPER LIVE DATA ANALYSIS</div>
+        </div>
+
+        <div class="status">
+            <span id="statusDot" class="status-dot"></span>
+            <span id="connectionStatus">Disconnected</span>
+        </div>
+
+    </div>
+
+
+    <!-- ACCOUNT -->
+
+    <div class="account-bar">
+
+        <div class="account-info">
+
+            <div>
+                Account:
+                <strong id="accountId">—</strong>
+            </div>
+
+            <div>
+                Balance:
+                <strong id="accountBalance">—</strong>
+            </div>
+
+            <div>
+                Mode:
+                <strong id="accountMode">—</strong>
+            </div>
+
+        </div>
+
+        <div class="account-selector">
+
+            <select id="accountSelector">
+                <option value="">
+                    Loading accounts...
+                </option>
+            </select>
+
+            <button id="logoutBtn" class="secondary-btn">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="accountStatus" class="account-status"></div>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>Live Deriv Data Analysis</h1>
+
+        <p>
+            Monitor live Deriv market data, independently analyze market
+            conditions and allow the Smart AI layer to identify the
+            strongest current setup without using countdown-based logic.
+        </p>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary">
+
+        <div class="summary-card">
+            <div class="summary-label">Market Feed</div>
+            <div id="summaryConnection" class="summary-value">OFF</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Markets</div>
+            <div id="summaryMarkets" class="summary-value">12</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Subscriptions</div>
+            <div id="summarySubscriptions" class="summary-value">0</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Ticks Received</div>
+            <div id="summaryTicks" class="summary-value">0</div>
+        </div>
+
+    </section>
+
+
+    <!-- CONFIG -->
+
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Trading Configuration</h2>
+        </div>
+
+        <div class="panel">
+
+            <div class="config-grid">
+
+                <div class="field">
+                    <label>Stake Per Trade</label>
+
+                    <input
+                        id="stakeInput"
+                        type="number"
+                        min="0.35"
+                        step="0.01"
+                        value="1.00"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Profit Target</label>
+
+                    <input
+                        id="profitTargetInput"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value="5.00"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Max Loss</label>
+
+                    <input
+                        id="maxLossInput"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value="5.00"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Currency</label>
+
+                    <select id="currencyInput">
+                        <option value="USD">USD</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="risk-box">
+
+                <div class="risk-item">
+                    <span>Risk Status</span>
+                    <strong id="riskStatus">READY</strong>
+                </div>
+
+                <div class="risk-item">
+                    <span>Session P/L</span>
+                    <strong id="sessionPL">0.00 USD</strong>
+                </div>
+
+                <div class="risk-item">
+                    <span>Trades This Session</span>
+                    <strong id="sessionTrades">0</strong>
+                </div>
+
+            </div>
+
+            <div class="action-row">
+
+                <button id="connectBtn" class="primary-btn">
+                    Connect Live Data
+                </button>
+
+                <button id="disconnectBtn" class="danger-btn">
+                    Disconnect
+                </button>
+
+            </div>
+
+            <div class="notice">
+                Demo-first execution layer. This version analyzes live data
+                and prepares execution decisions, but does not submit
+                real-money contracts automatically.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STRATEGIES -->
+
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Available Strategies</h2>
+        </div>
+
+        <div class="strategy-grid">
+
+            <div class="strategy-card active" id="strategy-alpha">
+
+                <span class="strategy-tag">
+                    ALPHA
+                </span>
+
+                <h3>
+                    Matches Printer
+                </h3>
+
+                <p>
+                    Smart matches for consistent hits.
+                </p>
+
+                <div class="strategy-status">
+                    Analysis engine available
+                </div>
+
+            </div>
+
+
+            <div class="strategy-card" id="strategy-quantum">
+
+                <span class="strategy-tag">
+                    QUANTUM
+                </span>
+
+                <h3>
+                    Over 8 Killer
+                </h3>
+
+                <p>
+                    High-accuracy Over 8 analysis.
+                </p>
+
+                <div class="strategy-status">
+                    Analysis engine available
+                </div>
+
+            </div>
+
+
+            <div class="strategy-card active" id="strategy-tickstrike">
+
+                <span class="strategy-tag">
+                    APEX
+                </span>
+
+                <h3>
+                    TickStrike Pro
+                </h3>
+
+                <p>
+                    High-speed tick momentum analysis.
+                </p>
+
+                <div class="strategy-status">
+                    Live momentum engine
+                </div>
+
+            </div>
+
+
+            <div class="strategy-card active" id="strategy-switcher">
+
+                <span class="strategy-tag">
+                    APEX
+                </span>
+
+                <h3>
+                    Auto Switcher
+                </h3>
+
+                <p>
+                    Automatically selects the most suitable current
+                    execution direction and market setup.
+                </p>
+
+                <div class="strategy-status">
+                    Smart AI routing
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SMART AI -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                Smart AI Market Selection
+            </h2>
+
+            <button
+                id="smartSelectBtn"
+                class="ai-btn"
+            >
+                Run Smart AI
+            </button>
+
+        </div>
+
+        <div class="ai-grid">
+
+            <div class="panel ai-main">
+
+                <div class="ai-title">
+
+                    <h3 id="aiHeadline">
+                        Waiting for sufficient market data
+                    </h3>
+
+                    <span class="premium-badge">
+                        APEX READY
+                    </span>
+
+                </div>
+
+                <div class="ai-selection">
+
+                    <div class="ai-box">
+
+                        <span>
+                            Selected Market
+                        </span>
+
+                        <strong id="aiMarket">
+                            —
+                        </strong>
+
+                    </div>
+
+                    <div class="ai-box">
+
+                        <span>
+                            Direction
+                        </span>
+
+                        <strong id="aiDirection">
+                            WAIT
+                        </strong>
+
+                    </div>
+
+                    <div class="ai-box">
+
+                        <span>
+                            Confidence
+                        </span>
+
+                        <strong id="aiConfidence">
+                            0%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="ai-score">
+                    <div
+                        id="aiScoreBar"
+                        class="ai-score-bar"
+                    ></div>
+                </div>
+
+                <div
+                    id="aiReason"
+                    class="execution-note"
+                >
+                    The engine needs live observations before selecting
+                    a market.
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <h3>
+                    Auto Switcher
+                </h3>
+
+                <p
+                    style="color:var(--muted);font-size:12px;line-height:1.6;margin-top:8px"
+                >
+                    APEX Auto Switcher continuously compares independent
+                    market conditions and routes the analysis focus toward
+                    the strongest current setup.
+                </p>
+
+                <div class="action-row">
+
+                    <button
+                        id="autoSwitcherBtn"
+                        class="primary-btn"
+                    >
+                        Enable Auto Switcher
+                    </button>
+
+                </div>
+
+                <div
+                    id="autoSwitcherStatus"
+                    class="execution-note"
+                >
+                    Currently OFF
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MARKETS -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                Live Market Analysis
+            </h2>
+
+            <span
+                style="font-size:11px;color:var(--muted)"
+            >
+                Independent market state
+            </span>
+
+        </div>
+
+        <div id="marketsContainer" class="markets"></div>
+
+    </section>
+
+
+    <!-- EXECUTION AREA -->
+
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Manual Trading / Execution Preparation</h2>
+        </div>
+
+        <div class="execution-grid">
+
+            <div class="execution-card">
+
+                <h3>
+                    Manual Setup
+                </h3>
+
+                <p>
+                    Select a market and prepare a RISE or FALL setup
+                    using the current analysis. Contract submission is
+                    intentionally disabled until the execution engine
+                    passes the demo validation stage.
+                </p>
+
+                <div class="manual-market">
+
+                    <select id="manualMarketSelector"></select>
+
+                </div>
+
+                <div class="manual-buttons">
+
+                    <button
+                        id="manualRiseBtn"
+                        class="trade-btn trade-rise"
+                    >
+                        Prepare RISE
+                    </button>
+
+                    <button
+                        id="manualFallBtn"
+                        class="trade-btn trade-fall"
+                    >
+                        Prepare FALL
+                    </button>
+
+                </div>
+
+                <div
+                    id="manualStatus"
+                    class="execution-note"
+                >
+                    No manual setup prepared.
+                </div>
+
+            </div>
+
+
+            <div class="execution-card">
+
+                <h3>
+                    Selected Execution Setup
+                </h3>
+
+                <p>
+                    This panel shows the decision generated by the
+                    current analysis layer.
+                </p>
+
+                <div class="risk-box">
+
+                    <div class="risk-item">
+                        <span>Market</span>
+                        <strong id="executionMarket">—</strong>
+                    </div>
+
+                    <div class="risk-item">
+                        <span>Direction</span>
+                        <strong id="executionDirection">WAIT</strong>
+                    </div>
+
+                    <div class="risk-item">
+                        <span>Stake</span>
+                        <strong id="executionStake">1.00 USD</strong>
+                    </div>
+
+                </div>
+
+                <div
+                    id="executionDecision"
+                    class="signal wait"
+                    style="margin-top:14px"
+                >
+                    WAITING FOR SETUP
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TRANSACTIONS -->
+
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Account Transactions</h2>
+        </div>
+
+        <div class="panel">
+
+            <div
+                id="transactionList"
+                class="transaction-list"
+            >
+
+                <div class="log-line">
+                    Waiting for authenticated account activity...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LOG -->
+
+    <section class="section">
+
+        <div class="section-title">
+            <h2>Analysis Log</h2>
+        </div>
+
+        <div class="panel">
+
+            <div id="analysisLog" class="log">
+
+                <div class="log-line">
+                    [SYSTEM] Waiting for live market connection...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        CASPER LIVE DATA ANALYSIS · Demo-first testing environment.
+        Live market analysis is enabled. Contract purchasing remains
+        disabled in this build.
+    </div>
+
+</div>
+
+
+<script>
+
+/* ============================================================
+   DERIV OAUTH CONFIGURATION
+============================================================ */
+
+const DERIV_CLIENT_ID =
+    "34qQDLAzOdZmQQa7ZfD7Y";
+
+const DERIV_REDIRECT_URI =
+    "https://casper-create.github.io/Casper-liveData-anallysis/";
+
+const OAUTH_BACKEND_URL =
+    "https://casper-derive-oauth.vackeryjohn.workers.dev/";
+
+
+/* ============================================================
+   DERIV API
+============================================================ */
+
+const DERIV_API_BASE =
+    "https://api.derivws.com";
+
+const PUBLIC_WS_URL =
+    "wss://api.derivws.com/trading/v1/options/ws/public";
+
+
+/* ============================================================
+   MARKET CONFIGURATION
+   12 selected Volatility markets
+============================================================ */
+
+const MARKETS = [
+
+    {
+        symbol:"1HZ100V",
+        name:"Volatility 100 (1s)"
+    },
+
+    {
+        symbol:"1HZ75V",
+        name:"Volatility 75 (1s)"
+    },
+
+    {
+        symbol:"1HZ50V",
+        name:"Volatility 50 (1s)"
+    },
+
+    {
+        symbol:"1HZ25V",
+        name:"Volatility 25 (1s)"
+    },
+
+    {
+        symbol:"1HZ10V",
+        name:"Volatility 10 (1s)"
+    },
+
+    {
+        symbol:"1HZ15V",
+        name:"Volatility 15 (1s)"
+    },
+
+    {
+        symbol:"1HZ30V",
+        name:"Volatility 30 (1s)"
+    },
+
+    {
+        symbol:"R_100",
+        name:"Volatility 100 Index"
+    },
+
+    {
+        symbol:"R_75",
+        name:"Volatility 75 Index"
+    },
+
+    {
+        symbol:"R_50",
+        name:"Volatility 50 Index"
+    },
+
+    {
+        symbol:"R_25",
+        name:"Volatility 25 Index"
+    },
+
+    {
+        symbol:"R_10",
+        name:"Volatility 10 Index"
+    }
+
+];
+
+
+/* ============================================================
+   GLOBAL STATE
+============================================================ */
+
+let oauthAccessToken = null;
+
+let publicWs = null;
+
+let accountWs = null;
+
+let accountWsUrl = null;
+
+let ticksReceived = 0;
+
+let subscriptions = 0;
+
+let authenticatedAccounts = [];
+
+let selectedAccount = null;
+
+let accountStreamConnected = false;
+
+let autoSwitcherEnabled = false;
+
+let smartAiTimer = null;
+
+let sessionPLValue = 0;
+
+let sessionTradesValue = 0;
+
+let transactionItems = [];
+
+
+/* ============================================================
+   MARKET STATE
+============================================================ */
+
+const marketState = {};
+
+
+MARKETS.forEach(
+    market => {
+
+        marketState[market.symbol] = {
+
+            symbol:
+                market.symbol,
+
+            name:
+                market.name,
+
+            prices:
+                [],
+
+            lastPrice:
+                null,
+
+            previousPrice:
+                null,
+
+            direction:
+                "WAIT",
+
+            momentum:
+                0,
+
+            volatility:
+                0,
+
+            confidence:
+                0,
+
+            signal:
+                "WAIT",
+
+            tickSpeed:
+                0,
+
+            upMoves:
+                0,
+
+            downMoves:
+                0,
+
+            trendStrength:
+                0,
+
+            lastUpdate:
+                null,
+
+            sampleCount:
+                0
+
+        };
+
+    }
+);
+
+
+/* ============================================================
+   DOM
+============================================================ */
+
+const loginScreen =
+    document.getElementById("loginScreen");
+
+const mainApp =
+    document.getElementById("mainApp");
+
+const oauthStatus =
+    document.getElementById("oauthStatus");
+
+const loginDerivBtn =
+    document.getElementById("loginDerivBtn");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+const connectBtn =
+    document.getElementById("connectBtn");
+
+const disconnectBtn =
+    document.getElementById("disconnectBtn");
+
+const smartSelectBtn =
+    document.getElementById("smartSelectBtn");
+
+const autoSwitcherBtn =
+    document.getElementById("autoSwitcherBtn");
+
+const marketsContainer =
+    document.getElementById("marketsContainer");
+
+const analysisLog =
+    document.getElementById("analysisLog");
+
+const statusDot =
+    document.getElementById("statusDot");
+
+const connectionStatus =
+    document.getElementById("connectionStatus");
+
+const summaryConnection =
+    document.getElementById("summaryConnection");
+
+const summarySubscriptions =
+    document.getElementById("summarySubscriptions");
+
+const summaryTicks =
+    document.getElementById("summaryTicks");
+
+const summaryMarkets =
+    document.getElementById("summaryMarkets");
+
+const accountId =
+    document.getElementById("accountId");
+
+const accountBalance =
+    document.getElementById("accountBalance");
+
+const accountMode =
+    document.getElementById("accountMode");
+
+const accountSelector =
+    document.getElementById("accountSelector");
+
+const accountStatus =
+    document.getElementById("accountStatus");
+
+const stakeInput =
+    document.getElementById("stakeInput");
+
+const profitTargetInput =
+    document.getElementById("profitTargetInput");
+
+const maxLossInput =
+    document.getElementById("maxLossInput");
+
+const currencyInput =
+    document.getElementById("currencyInput");
+
+const riskStatus =
+    document.getElementById("riskStatus");
+
+const sessionPL =
+    document.getElementById("sessionPL");
+
+const sessionTrades =
+    document.getElementById("sessionTrades");
+
+const aiHeadline =
+    document.getElementById("aiHeadline");
+
+const aiMarket =
+    document.getElementById("aiMarket");
+
+const aiDirection =
+    document.getElementById("aiDirection");
+
+const aiConfidence =
+    document.getElementById("aiConfidence");
+
+const aiScoreBar =
+    document.getElementById("aiScoreBar");
+
+const aiReason =
+    document.getElementById("aiReason");
+
+const autoSwitcherStatus =
+    document.getElementById("autoSwitcherStatus");
+
+const manualMarketSelector =
+    document.getElementById("manualMarketSelector");
+
+const manualRiseBtn =
+    document.getElementById("manualRiseBtn");
+
+const manualFallBtn =
+    document.getElementById("manualFallBtn");
+
+const manualStatus =
+    document.getElementById("manualStatus");
+
+const executionMarket =
+    document.getElementById("executionMarket");
+
+const executionDirection =
+    document.getElementById("executionDirection");
+
+const executionStake =
+    document.getElementById("executionStake");
+
+const executionDecision =
+    document.getElementById("executionDecision");
+
+const transactionList =
+    document.getElementById("transactionList");
+
+
+/* ============================================================
+   LOGGING
+============================================================ */
+
+function log(message){
+
+    const line =
+        document.createElement("div");
+
+    line.className =
+        "log-line";
+
+    line.textContent =
+        `[${new Date().toLocaleTimeString()}] ${message}`;
+
+    analysisLog.prepend(line);
+
+    while(
+        analysisLog.children.length > 120
+    ){
+
+        analysisLog.removeChild(
+            analysisLog.lastChild
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   LOGIN UI
+============================================================ */
+
+function showMainApp(){
+
+    loginScreen.classList.add("hidden");
+
+    mainApp.classList.remove("hidden");
+
+}
+
+
+function showLogin(){
+
+    mainApp.classList.add("hidden");
+
+    loginScreen.classList.remove("hidden");
+
+}
+
+
+/* ============================================================
+   PKCE
+============================================================ */
+
+function randomString(
+    length = 64
+){
+
+    const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+
+    const random =
+        new Uint8Array(length);
+
+    crypto.getRandomValues(random);
+
+    return Array.from(
+        random,
+        value =>
+            chars[
+                value % chars.length
+            ]
+    ).join("");
+
+}
+
+
+function base64UrlEncode(buffer){
+
+    let binary = "";
+
+    const bytes =
+        new Uint8Array(buffer);
+
+    bytes.forEach(
+        byte => {
+
+            binary +=
+                String.fromCharCode(byte);
+
+        }
+    );
+
+    return btoa(binary)
+        .replace(/\+/g,"-")
+        .replace(/\//g,"_")
+        .replace(/=/g,"");
+
+}
+
+
+async function createCodeChallenge(verifier){
+
+    const data =
+        new TextEncoder().encode(verifier);
+
+    const digest =
+        await crypto.subtle.digest(
+            "SHA-256",
+            data
+        );
+
+    return base64UrlEncode(digest);
+
+}
+
+
+/* ============================================================
+   DERIV LOGIN
+============================================================ */
+
+async function loginWithDeriv(){
+
+    try{
+
+        oauthStatus.textContent =
+            "Preparing secure Deriv login...";
+
+        const codeVerifier =
+            randomString(64);
+
+        const codeChallenge =
+            await createCodeChallenge(
+                codeVerifier
+            );
+
+        const state =
+            randomString(32);
+
+        sessionStorage.setItem(
+            "casper_code_verifier",
+            codeVerifier
+        );
+
+        sessionStorage.setItem(
+            "casper_oauth_state",
+            state
+        );
+
+        const params =
+            new URLSearchParams({
+
+                response_type:"code",
+
+                client_id:
+                    DERIV_CLIENT_ID,
+
+                redirect_uri:
+                    DERIV_REDIRECT_URI,
+
+                scope:"trade",
+
+                state,
+
+                code_challenge:
+                    codeChallenge,
+
+                code_challenge_method:"S256"
+
+            });
+
+        const loginUrl =
+            "https://auth.deriv.com/oauth2/auth?" +
+            params.toString();
+
+        window.location.href =
+            loginUrl;
+
+    }catch(error){
+
+        console.error(error);
+
+        oauthStatus.textContent =
+            "Unable to start Deriv login.";
+
+    }
+
+}
+
+
+/* ============================================================
+   OAUTH CALLBACK
+============================================================ */
+
+async function handleOAuthCallback(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const code =
+        params.get("code");
+
+    const returnedState =
+        params.get("state");
+
+    const error =
+        params.get("error");
+
+    if(error){
+
+        const description =
+            params.get("error_description");
+
+        oauthStatus.textContent =
+            "Deriv login was cancelled or rejected: " +
+            (
+                description ||
+                error
+            );
+
+        return;
+
+    }
+
+    if(!code){
+
+        return;
+
+    }
+
+    oauthStatus.textContent =
+        "Completing secure Deriv login...";
+
+    const savedState =
+        sessionStorage.getItem(
+            "casper_oauth_state"
+        );
+
+    if(
+        !savedState ||
+        savedState !== returnedState
+    ){
+
+        oauthStatus.textContent =
+            "Security check failed. Please start login again.";
+
+        return;
+
+    }
+
+    const codeVerifier =
+        sessionStorage.getItem(
+            "casper_code_verifier"
+        );
+
+    if(!codeVerifier){
+
+        oauthStatus.textContent =
+            "Login session expired. Please try again.";
+
+        return;
+
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                OAUTH_BACKEND_URL,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            code,
+
+                            code_verifier:
+                                codeVerifier
+
+                        })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                "OAuth token exchange failed."
+            );
+
+        }
+
+        if(!data.access_token){
+
+            throw new Error(
+                "No access token returned by the OAuth server."
+            );
+
+        }
+
+        oauthAccessToken =
+            data.access_token;
+
+        /*
+         * Keep the token in memory only.
+         * It is deliberately not written into localStorage.
+         */
+
+        sessionStorage.removeItem(
+            "casper_code_verifier"
+        );
+
+        sessionStorage.removeItem(
+            "casper_oauth_state"
+        );
+
+        window.history.replaceState(
+            {},
+            document.title,
+            DERIV_REDIRECT_URI
+        );
+
+        showMainApp();
+
+        setConnectionState(false);
+
+        oauthStatus.textContent = "";
+
+        log(
+            "Deriv authentication completed successfully."
+        );
+
+        await loadAuthenticatedAccounts();
+
+    }catch(error){
+
+        console.error(
+            "OAuth callback error:",
+            error
+        );
+
+        oauthStatus.textContent =
+            "Deriv login failed: " +
+            error.message;
+
+    }
+
+}
+
+
+/* ============================================================
+   API HELPERS
+============================================================ */
+
+async function apiRequest(
+    path,
+    options = {}
+){
+
+    if(!oauthAccessToken){
+
+        throw new Error(
+            "Deriv authentication is not active."
+        );
+
+    }
+
+    const response =
+        await fetch(
+            DERIV_API_BASE + path,
+            {
+
+                ...options,
+
+                headers:{
+                    ...(options.headers || {}),
+
+                    "Authorization":
+                        "Bearer " +
+                        oauthAccessToken,
+
+                    "Content-Type":
+                        "application/json"
+
+                }
+
+            }
+        );
+
+    let data = {};
+
+    try{
+
+        data =
+            await response.json();
+
+    }catch(error){
+
+        data = {};
+
+    }
+
+    if(!response.ok){
+
+        throw new Error(
+            extractApiError(
+                data,
+                `Deriv API request failed (${response.status}).`
+            )
+        );
+
+    }
+
+    return data;
+
+}
+
+
+/* ============================================================
+   ACCOUNT LOADING
+============================================================ */
+
+async function loadAuthenticatedAccounts(){
+
+    if(!oauthAccessToken){
+
+        return;
+
+    }
+
+    accountStatus.textContent =
+        "Loading your Deriv Options accounts...";
+
+    try{
+
+        const data =
+            await apiRequest(
+                "/trading/v1/options/accounts",
+                {
+                    method:"GET"
+                }
+            );
+
+        const accounts =
+            extractAccounts(data);
+
+        if(!accounts.length){
+
+            throw new Error(
+                "No Options trading accounts were returned."
+            );
+
+        }
+
+        authenticatedAccounts =
+            accounts;
+
+        renderAccountSelector();
+
+        const demoAccount =
+            accounts.find(
+                account =>
+                    String(
+                        account.account_type ||
+                        ""
+                    ).toLowerCase() ===
+                    "demo"
+            );
+
+        const initialAccount =
+            demoAccount ||
+            accounts[0];
+
+        await selectAccount(
+            initialAccount.account_id,
+            true
+        );
+
+        accountStatus.textContent =
+            "Account data loaded successfully.";
+
+        log(
+            `Found ${accounts.length} Deriv Options account(s).`
+        );
+
+    }catch(error){
+
+        console.error(
+            "Account loading error:",
+            error
+        );
+
+        accountStatus.textContent =
+            "Account loading failed: " +
+            error.message;
+
+        log(
+            "Unable to load authenticated account information."
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   ACCOUNT RESPONSE NORMALIZATION
+============================================================ */
+
+function extractAccounts(data){
+
+    if(
+        data &&
+        Array.isArray(data.data)
+    ){
+
+        return data.data.filter(
+            account =>
+                account &&
+                account.account_id
+        );
+
+    }
+
+    if(
+        data &&
+        data.data &&
+        data.data.account_id
+    ){
+
+        return [data.data];
+
+    }
+
+    if(
+        data &&
+        Array.isArray(data.accounts)
+    ){
+
+        return data.accounts.filter(
+            account =>
+                account &&
+                account.account_id
+        );
+
+    }
+
+    return [];
+
+}
+
+
+function extractApiError(
+    data,
+    fallback
+){
+
+    if(
+        data &&
+        Array.isArray(data.errors) &&
+        data.errors.length
+    ){
+
+        return (
+            data.errors[0].message ||
+            fallback
+        );
+
+    }
+
+    return (
+        data?.message ||
+        data?.error ||
+        fallback
+    );
+
+}
+
+
+/* ============================================================
+   ACCOUNT SELECTOR
+============================================================ */
+
+function renderAccountSelector(){
+
+    accountSelector.innerHTML = "";
+
+    authenticatedAccounts.forEach(
+        account => {
+
+            const option =
+                document.createElement("option");
+
+            const type =
+                String(
+                    account.account_type ||
+                    "unknown"
+                ).toLowerCase();
+
+            const label =
+                type === "demo"
+                    ? "DEMO / VIRTUAL"
+                    : type === "real"
+                        ? "REAL"
+                        : type.toUpperCase();
+
+            option.value =
+                account.account_id;
+
+            option.textContent =
+                `${label} · ${account.currency || "USD"}`;
+
+            accountSelector.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+async function selectAccount(
+    accountIdValue,
+    silent = false
+){
+
+    const account =
+        authenticatedAccounts.find(
+            item =>
+                item.account_id ===
+                accountIdValue
+        );
+
+    if(!account){
+
+        return;
+
+    }
+
+    selectedAccount =
+        account;
+
+    accountSelector.value =
+        account.account_id;
+
+    updateAccountDisplay();
+
+    if(!silent){
+
+        log(
+            `Selected ${getAccountTypeLabel(account)} account ${account.account_id}.`
+        );
+
+    }
+
+    /*
+     * Reconnect the authenticated account stream
+     * for the newly selected account.
+     */
+
+    await connectAuthenticatedAccount();
+
+}
+
+
+/* ============================================================
+   ACCOUNT DISPLAY
+============================================================ */
+
+function getAccountTypeLabel(account){
+
+    const type =
+        String(
+            account.account_type ||
+            ""
+        ).toLowerCase();
+
+    if(type === "demo"){
+
+        return "Demo";
+
+    }
+
+    if(type === "real"){
+
+        return "Real";
+
+    }
+
+    return type || "Unknown";
+
+}
+
+
+function updateAccountDisplay(){
+
+    if(!selectedAccount){
+
+        accountId.textContent = "—";
+        accountBalance.textContent = "—";
+        accountMode.textContent = "—";
+
+        return;
+
+    }
+
+    const type =
+        getAccountTypeLabel(
+            selectedAccount
+        );
+
+    accountId.textContent =
+        selectedAccount.account_id ||
+        "—";
+
+    accountBalance.textContent =
+        formatBalance(
+            selectedAccount.balance,
+            selectedAccount.currency
+        );
+
+    accountMode.textContent =
+        type;
+
+    accountMode.classList.remove(
+        "mode-real",
+        "mode-demo"
+    );
+
+    if(
+        type.toLowerCase() ===
+        "real"
+    ){
+
+        accountMode.classList.add(
+            "mode-real"
+        );
+
+    }else{
+
+        accountMode.classList.add(
+            "mode-demo"
+        );
+
+    }
+
+}
+
+
+function formatBalance(
+    balance,
+    currency
+){
+
+    if(
+        balance === undefined ||
+        balance === null
+    ){
+
+        return "—";
+
+    }
+
+    const numeric =
+        Number(balance);
+
+    if(!Number.isFinite(numeric)){
+
+        return (
+            String(balance) +
+            " " +
+            (
+                currency ||
+                ""
+            )
+        ).trim();
+
+    }
+
+    return (
+        numeric.toLocaleString(
+            undefined,
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        ) +
+        " " +
+        (
+            currency ||
+            "USD"
+        )
+    );
+
+}
+
+
+/* ============================================================
+   AUTHENTICATED ACCOUNT WEBSOCKET
+============================================================ */
+
+async function connectAuthenticatedAccount(){
+
+    if(!oauthAccessToken){
+
+        return;
+
+    }
+
+    if(!selectedAccount){
+
+        return;
+
+    }
+
+    closeAccountWebSocket();
+
+    accountStatus.textContent =
+        "Connecting authenticated account stream...";
+
+    try{
+
+        const accountIdValue =
+            encodeURIComponent(
+                selectedAccount.account_id
+            );
+
+        const data =
+            await apiRequest(
+                `/trading/v1/options/accounts/${accountIdValue}/otp`,
+                {
+                    method:"POST"
+                }
+            );
+
+        accountWsUrl =
+            extractWebSocketUrl(data);
+
+        if(!accountWsUrl){
+
+            throw new Error(
+                "Deriv did not return an authenticated WebSocket URL."
+            );
+
+        }
+
+        accountWs =
+            new WebSocket(
+                accountWsUrl
+            );
+
+        accountWs.onopen =
+            function(){
+
+                accountStreamConnected =
+                    true;
+
+                log(
+                    `Authenticated ${getAccountTypeLabel(selectedAccount)} account stream connected.`
+                );
+
+                accountStatus.textContent =
+                    `${getAccountTypeLabel(selectedAccount)} account stream connected.`;
+
+                subscribeAccountStreams();
+
+            };
+
+        accountWs.onmessage =
+            function(event){
+
+                try{
+
+                    const data =
+                        JSON.parse(
+                            event.data
+                        );
+
+                    handleAccountMessage(
+                        data
+                    );
+
+                }catch(error){
+
+                    console.error(
+                        "Account stream parsing error:",
+                        error
+                    );
+
+                }
+
+            };
+
+        accountWs.onerror =
+            function(){
+
+                accountStreamConnected =
+                    false;
+
+                accountStatus.textContent =
+                    "Authenticated account stream error.";
+
+            };
+
+        accountWs.onclose =
+            function(){
+
+                accountStreamConnected =
+                    false;
+
+                if(selectedAccount){
+
+                    accountStatus.textContent =
+                        "Authenticated account stream disconnected.";
+
+                }
+
+            };
+
+    }catch(error){
+
+        console.error(
+            "Authenticated account connection error:",
+            error
+        );
+
+        accountStreamConnected =
+            false;
+
+        accountStatus.textContent =
+            "Account stream unavailable: " +
+            error.message;
+
+        log(
+            "Account monitoring connection failed."
+        );
+
+    }
+
+}
+
+
+function extractWebSocketUrl(data){
+
+    const candidates = [
+
+        data?.data?.websocket_url,
+
+        data?.data?.ws_url,
+
+        data?.websocket_url,
+
+        data?.ws_url,
+
+        data?.data?.url,
+
+        data?.url
+
+    ];
+
+    return candidates.find(
+        value =>
+            typeof value === "string" &&
+            value.startsWith("wss://")
+    ) || null;
+
+}
+
+
+function subscribeAccountStreams(){
+
+    if(
+        !accountWs ||
+        accountWs.readyState !== WebSocket.OPEN
+    ){
+
+        return;
+
+    }
+
+    /*
+     * Account balance.
+     */
+
+    accountWs.send(
+        JSON.stringify({
+
+            balance:1,
+
+            subscribe:1,
+
+            req_id:7001
+
+        })
+    );
+
+    /*
+     * Account transactions.
+     */
+
+    accountWs.send(
+        JSON.stringify({
+
+            transaction:1,
+
+            subscribe:1,
+
+            req_id:7002
+
+        })
+    );
+
+}
+
+
+function handleAccountMessage(data){
+
+    if(data.error){
+
+        log(
+            "Account stream error: " +
+            (
+                data.error.message ||
+                "Unknown account error"
+            )
+        );
+
+        return;
+
+    }
+
+    if(data.balance){
+
+        const balance =
+            Number(
+                data.balance.balance
+            );
+
+        const currency =
+            data.balance.currency ||
+            selectedAccount?.currency ||
+            "USD";
+
+        if(Number.isFinite(balance)){
+
+            accountBalance.textContent =
+                formatBalance(
+                    balance,
+                    currency
+                );
+
+            if(selectedAccount){
+
+                selectedAccount.balance =
+                    balance;
+
+                selectedAccount.currency =
+                    currency;
+
+            }
+
+        }
+
+    }
+
+    if(data.transaction){
+
+        addTransaction(
+            data.transaction
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   TRANSACTIONS
+============================================================ */
+
+function addTransaction(transaction){
+
+    transactionItems.unshift(
+        transaction
+    );
+
+    transactionItems =
+        transactionItems.slice(
+            0,
+            50
+        );
+
+    renderTransactions();
+
+}
+
+
+function renderTransactions(){
+
+    transactionList.innerHTML = "";
+
+    if(!transactionItems.length){
+
+        transactionList.innerHTML =
+            `<div class="log-line">
+                Waiting for authenticated account activity...
+            </div>`;
+
+        return;
+
+    }
+
+    transactionItems.forEach(
+        transaction => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "transaction-item";
+
+            const action =
+                transaction.action ||
+                transaction.action_type ||
+                "activity";
+
+            const symbol =
+                transaction.underlying_symbol ||
+                transaction.symbol ||
+                "Account";
+
+            const amount =
+                Number(
+                    transaction.amount
+                );
+
+            let amountClass =
+                "neutral";
+
+            if(Number.isFinite(amount)){
+
+                if(amount > 0){
+
+                    amountClass =
+                        "positive";
+
+                }else if(amount < 0){
+
+                    amountClass =
+                        "negative";
+
+                }
+
+            }
+
+            const amountText =
+                Number.isFinite(amount)
+                    ? `${amount.toFixed(2)} ${selectedAccount?.currency || "USD"}`
+                    : "—";
+
+            const time =
+                transaction.transaction_time
+                    ? new Date(
+                        Number(
+                            transaction.transaction_time
+                        ) * 1000
+                    ).toLocaleTimeString()
+                    : new Date().toLocaleTimeString();
+
+            item.innerHTML = `
+
+                <div class="transaction-left">
+
+                    <strong>
+                        ${escapeHtml(
+                            String(action).toUpperCase()
+                        )}
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(
+                            String(symbol)
+                        )} · ${time}
+                    </span>
+
+                </div>
+
+                <div class="transaction-right">
+
+                    <span class="${amountClass}">
+                        ${escapeHtml(amountText)}
+                    </span>
+
+                </div>
+
+            `;
+
+            transactionList.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ============================================================
+   CONNECTION STATUS
+============================================================ */
+
+function setConnectionState(connected){
+
+    if(connected){
+
+        statusDot.classList.add(
+            "connected"
+        );
+
+        connectionStatus.textContent =
+            "Live Market Data";
+
+        summaryConnection.textContent =
+            "ON";
+
+    }else{
+
+        statusDot.classList.remove(
+            "connected"
+        );
+
+        connectionStatus.textContent =
+            "Disconnected";
+
+        summaryConnection.textContent =
+            "OFF";
+
+    }
+
+}
+
+
+/* ============================================================
+   MARKET CARDS
+============================================================ */
+
+function renderMarkets(){
+
+    marketsContainer.innerHTML = "";
+
+    manualMarketSelector.innerHTML = "";
+
+    MARKETS.forEach(
+        market => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "market-card";
+
+            card.id =
+                `market-${market.symbol}`;
+
+            card.innerHTML = `
+
+                <div class="market-head">
+
+                    <div>
+
+                        <div class="market-name">
+                            ${escapeHtml(market.name)}
+                        </div>
+
+                        <div class="market-symbol">
+                            ${escapeHtml(market.symbol)}
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="market-state"
+                        id="state-${market.symbol}"
+                    >
+                        WAITING
+                    </div>
+
+                </div>
+
+                <div
+                    class="market-price"
+                    id="price-${market.symbol}"
+                >
+                    —
+                </div>
+
+                <div class="market-grid">
+
+                    <div class="metric">
+
+                        <span>
+                            Direction
+                        </span>
+
+                        <strong
+                            id="direction-${market.symbol}"
+                        >
+                            WAIT
+                        </strong>
+
+                    </div>
+
+                    <div class="metric">
+
+                        <span>
+                            Momentum
+                        </span>
+
+                        <strong
+                            id="momentum-${market.symbol}"
+                        >
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="metric">
+
+                        <span>
+                            Volatility
+                        </span>
+
+                        <strong
+                            id="volatility-${market.symbol}"
+                        >
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="metric">
+
+                        <span>
+                            Confidence
+                        </span>
+
+                        <strong
+                            id="confidence-${market.symbol}"
+                        >
+                            0%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="signal wait"
+                    id="signal-${market.symbol}"
+                >
+                    WAIT
+                </div>
+
+                <div class="market-footer">
+
+                    <span
+                        id="sample-${market.symbol}"
+                    >
+                        Samples: 0
+                    </span>
+
+                    <span
+                        id="updated-${market.symbol}"
+                    >
+                        Waiting
+                    </span>
+
+                </div>
+
+            `;
+
+            marketsContainer.appendChild(
+                card
+            );
+
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                market.symbol;
+
+            option.textContent =
+                `${market.name} · ${market.symbol}`;
+
+            manualMarketSelector.appendChild(
+                option
+            );
+
+        }
+    );
+
+    summaryMarkets.textContent =
+        MARKETS.length;
+
+}
+
+
+/* ============================================================
+   MARKET CARD UPDATE
+============================================================ */
+
+function updateMarketCard(symbol){
+
+    const state =
+        marketState[symbol];
+
+    if(!state){
+
+        return;
+
+    }
+
+    const price =
+        document.getElementById(
+            `price-${symbol}`
+        );
+
+    const direction =
+        document.getElementById(
+            `direction-${symbol}`
+        );
+
+    const momentum =
+        document.getElementById(
+            `momentum-${symbol}`
+        );
+
+    const volatility =
+        document.getElementById(
+            `volatility-${symbol}`
+        );
+
+    const confidence =
+        document.getElementById(
+            `confidence-${symbol}`
+        );
+
+    const signal =
+        document.getElementById(
+            `signal-${symbol}`
+        );
+
+    const stateElement =
+        document.getElementById(
+            `state-${symbol}`
+        );
+
+    const sample =
+        document.getElementById(
+            `sample-${symbol}`
+        );
+
+    const updated =
+        document.getElementById(
+            `updated-${symbol}`
+        );
+
+    if(price){
+
+        price.textContent =
+            state.lastPrice !== null
+                ? formatPrice(
+                    state.lastPrice
+                )
+                : "—";
+
+    }
+
+    if(direction){
+
+        direction.textContent =
+            state.direction;
+
+    }
+
+    if(momentum){
+
+        momentum.textContent =
+            state.momentum.toFixed(5);
+
+    }
+
+    if(volatility){
+
+        volatility.textContent =
+            state.volatility.toFixed(5);
+
+    }
+
+    if(confidence){
+
+        confidence.textContent =
+            `${state.confidence}%`;
+
+    }
+
+    if(signal){
+
+        signal.textContent =
+            state.signal;
+
+        signal.classList.remove(
+            "buy",
+            "sell",
+            "wait"
+        );
+
+        if(
+            state.signal ===
+            "RISE"
+        ){
+
+            signal.classList.add("buy");
+
+        }else if(
+            state.signal ===
+            "FALL"
+        ){
+
+            signal.classList.add("sell");
+
+        }else{
+
+            signal.classList.add("wait");
+
+        }
+
+    }
+
+    if(stateElement){
+
+        stateElement.textContent =
+            state.lastPrice === null
+                ? "WAITING"
+                : "LIVE";
+
+    }
+
+    if(sample){
+
+        sample.textContent =
+            `Samples: ${state.sampleCount}`;
+
+    }
+
+    if(updated){
+
+        updated.textContent =
+            state.lastUpdate
+                ? new Date(
+                    state.lastUpdate
+                ).toLocaleTimeString()
+                : "Waiting";
+
+    }
+
+}
+
+
+function formatPrice(price){
+
+    const numeric =
+        Number(price);
+
+    if(!Number.isFinite(numeric)){
+
+        return "—";
+
+    }
+
+    if(Math.abs(numeric) >= 100){
+
+        return numeric.toFixed(3);
+
+    }
+
+    if(Math.abs(numeric) >= 1){
+
+        return numeric.toFixed(4);
+
+    }
+
+    return numeric.toFixed(6);
+
+}
+
+
+/* ============================================================
+   MARKET ANALYSIS ENGINE
+============================================================ */
+
+function analyzeMarket(symbol){
+
+    const state =
+        marketState[symbol];
+
+    if(
+        !state ||
+        state.prices.length < 8
+    ){
+
+        return;
+
+    }
+
+    const prices =
+        state.prices;
+
+    const latest =
+        prices[
+            prices.length - 1
+        ];
+
+    const previous =
+        prices[
+            prices.length - 2
+        ];
+
+    state.lastPrice =
+        latest;
+
+    state.previousPrice =
+        previous;
+
+    const recent =
+        prices.slice(
+            Math.max(
+                0,
+                prices.length - 30
+            )
+        );
+
+    let movement = 0;
+
+    let upMoves = 0;
+
+    let downMoves = 0;
+
+    for(
+        let i = 1;
+        i < recent.length;
+        i++
+    ){
+
+        const delta =
+            recent[i] -
+            recent[i - 1];
+
+        movement += delta;
+
+        if(delta > 0){
+
+            upMoves++;
+
+        }else if(delta < 0){
+
+            downMoves++;
+
+        }
+
+    }
+
+    state.upMoves =
+        upMoves;
+
+    state.downMoves =
+        downMoves;
+
+    state.momentum =
+        movement;
+
+    const mean =
+        recent.reduce(
+            (sum,value) =>
+                sum + value,
+            0
+        ) /
+        recent.length;
+
+    const variance =
+        recent.reduce(
+            (sum,value) =>
+                sum +
+                Math.pow(
+                    value - mean,
+                    2
+                ),
+            0
+        ) /
+        recent.length;
+
+    state.volatility =
+        Math.sqrt(
+            variance
+        );
+
+    const recentRange =
+        Math.max(...recent) -
+        Math.min(...recent);
+
+    const directionalRatio =
+        recent.length > 1
+            ? Math.abs(
+                upMoves -
+                downMoves
+            ) /
+              (
+                upMoves +
+                downMoves ||
+                1
+              )
+            : 0;
+
+    const normalizedMomentum =
+        recentRange > 0
+            ? Math.min(
+                1,
+                Math.abs(
+                    movement
+                ) /
+                recentRange
+            )
+            : 0;
+
+    const pressure =
+        upMoves >
+        downMoves
+            ? "RISE"
+            : downMoves >
+              upMoves
+                ? "FALL"
+                : "FLAT";
+
+    state.direction =
+        pressure === "FLAT"
+            ? "FLAT"
+            : pressure;
+
+    state.trendStrength =
+        (
+            directionalRatio *
+            0.55
+        ) +
+        (
+            normalizedMomentum *
+            0.45
+        );
+
+    /*
+     * Confidence is an analysis score, not
+     * a guarantee of winning probability.
+     */
+
+    state.confidence =
+        Math.max(
+            0,
+            Math.min(
+                99,
+                Math.round(
+                    state.trendStrength *
+                    100
+                )
+            )
+        );
+
+    if(
+        state.confidence >= 55 &&
+        state.direction === "RISE"
+    ){
+
+        state.signal =
+            "RISE";
+
+    }else if(
+        state.confidence >= 55 &&
+        state.direction === "FALL"
+    ){
+
+        state.signal =
+            "FALL";
+
+    }else{
+
+        state.signal =
+            "WAIT";
+
+    }
+
+    state.sampleCount =
+        prices.length;
+
+    updateMarketCard(symbol);
+
+}
+
+
+/* ============================================================
+   SMART AI SCORING
+============================================================ */
+
+function scoreMarket(state){
+
+    if(
+        !state ||
+        state.prices.length < 8
+    ){
+
+        return -1;
+
+    }
+
+    if(
+        state.signal === "WAIT"
+    ){
+
+        return (
+            state.confidence *
+            0.35
+        );
+
+    }
+
+    const confidenceScore =
+        state.confidence;
+
+    const trendScore =
+        state.trendStrength *
+        100;
+
+    const momentumScore =
+        Math.min(
+            100,
+            Math.abs(
+                state.momentum
+            ) /
+            (
+                state.volatility ||
+                0.000001
+            )
+        );
+
+    const directionalPressure =
+        Math.abs(
+            state.upMoves -
+            state.downMoves
+        ) /
+        (
+            state.upMoves +
+            state.downMoves ||
+            1
+        ) *
+        100;
+
+    return (
+        confidenceScore * 0.40 +
+        trendScore * 0.25 +
+        Math.min(
+            100,
+            momentumScore
+        ) * 0.15 +
+        directionalPressure * 0.20
+    );
+
+}
+
+
+function selectSmartMarket(){
+
+    let best =
+        null;
+
+    let bestScore =
+        -1;
+
+    Object.values(
+        marketState
+    ).forEach(
+        state => {
+
+            const score =
+                scoreMarket(
+                    state
+                );
+
+            if(score > bestScore){
+
+                bestScore =
+                    score;
+
+                best =
+                    state;
+
+            }
+
+        }
+    );
+
+    return {
+        state:best,
+        score:bestScore
+    };
+
+}
+
+
+function runSmartAI(
+    automatic = false
+){
+
+    const result =
+        selectSmartMarket();
+
+    if(
+        !result.state ||
+        result.score < 0
+    ){
+
+        aiHeadline.textContent =
+            "Waiting for sufficient market data";
+
+        aiMarket.textContent =
+            "—";
+
+        aiDirection.textContent =
+            "WAIT";
+
+        aiConfidence.textContent =
+            "0%";
+
+        aiScoreBar.style.width =
+            "0%";
+
+        aiReason.textContent =
+            "The engine needs more live observations before selecting a market.";
+
+        return;
+
+    }
+
+    const state =
+        result.state;
+
+    aiMarket.textContent =
+        state.name;
+
+    aiDirection.textContent =
+        state.signal;
+
+    aiConfidence.textContent =
+        `${state.confidence}%`;
+
+    aiScoreBar.style.width =
+        `${Math.min(
+            100,
+            Math.round(
+                result.score
+            )
+        )}%`;
+
+    aiHeadline.textContent =
+        automatic
+            ? "APEX Auto Switcher selected current setup"
+            : "Smart AI selected current setup";
+
+    aiReason.textContent =
+        `${state.name} currently has ${state.confidence}% analysis confidence, ` +
+        `${state.upMoves} upward moves vs ${state.downMoves} downward moves ` +
+        `in the rolling sample. This is an analytical score, not a guaranteed outcome.`;
+
+    highlightMarket(
+        state.symbol
+    );
+
+    prepareExecution(
+        state.symbol,
+        state.signal,
+        automatic
+            ? "APEX Auto Switcher"
+            : "Smart AI"
+    );
+
+    if(automatic){
+
+        log(
+            `Auto Switcher focus: ${state.name} → ${state.signal} (${state.confidence}%).`
+        );
+
+    }else{
+
+        log(
+            `Smart AI focus: ${state.name} → ${state.signal} (${state.confidence}%).`
+        );
+
+    }
+
+}
+
+
+function highlightMarket(symbol){
+
+    document
+        .querySelectorAll(".market-card")
+        .forEach(
+            card =>
+                card.classList.remove(
+                    "selected"
+                )
+        );
+
+    const card =
+        document.getElementById(
+            `market-${symbol}`
+        );
+
+    if(card){
+
+        card.classList.add(
+            "selected"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   APEX AUTO SWITCHER
+============================================================ */
+
+function toggleAutoSwitcher(){
+
+    autoSwitcherEnabled =
+        !autoSwitcherEnabled;
+
+    if(autoSwitcherEnabled){
+
+        autoSwitcherBtn.textContent =
+            "Disable Auto Switcher";
+
+        autoSwitcherStatus.textContent =
+            "ON · Comparing live market conditions.";
+
+        log(
+            "APEX Auto Switcher enabled."
+        );
+
+        runSmartAI(true);
+
+        if(smartAiTimer){
+
+            clearInterval(
+                smartAiTimer
+            );
+
+        }
+
+        smartAiTimer =
+            setInterval(
+                function(){
+
+                    if(
+                        autoSwitcherEnabled
+                    ){
+
+                        runSmartAI(true);
+
+                    }
+
+                },
+                5000
+            );
+
+    }else{
+
+        autoSwitcherBtn.textContent =
+            "Enable Auto Switcher";
+
+        autoSwitcherStatus.textContent =
+            "Currently OFF";
+
+        if(smartAiTimer){
+
+            clearInterval(
+                smartAiTimer
+            );
+
+            smartAiTimer =
+                null;
+
+        }
+
+        log(
+            "APEX Auto Switcher disabled."
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   EXECUTION PREPARATION
+============================================================ */
+
+function getStake(){
+
+    const value =
+        Number(
+            stakeInput.value
+        );
+
+    return Number.isFinite(value) &&
+        value >= 0.35
+            ? value
+            : 0.35;
+
+}
+
+
+function getProfitTarget(){
+
+    const value =
+        Number(
+            profitTargetInput.value
+        );
+
+    return Number.isFinite(value) &&
+        value >= 0
+            ? value
+            : 0;
+
+}
+
+
+function getMaxLoss(){
+
+    const value =
+        Number(
+            maxLossInput.value
+        );
+
+    return Number.isFinite(value) &&
+        value >= 0
+            ? value
+            : 0;
+
+}
+
+
+function validateRisk(){
+
+    const stake =
+        getStake();
+
+    const profitTarget =
+        getProfitTarget();
+
+    const maxLoss =
+        getMaxLoss();
+
+    stakeInput.value =
+        stake.toFixed(2);
+
+    profitTargetInput.value =
+        profitTarget.toFixed(2);
+
+    maxLossInput.value =
+        maxLoss.toFixed(2);
+
+    if(
+        maxLoss > 0 &&
+        stake > maxLoss
+    ){
+
+        riskStatus.textContent =
+            "CHECK MAX LOSS";
+
+        riskStatus.style.color =
+            "#fca5a5";
+
+        return false;
+
+    }
+
+    riskStatus.textContent =
+        "READY";
+
+    riskStatus.style.color =
+        "#86efac";
+
+    return true;
+
+}
+
+
+function prepareExecution(
+    symbol,
+    direction,
+    source = "Manual"
+){
+
+    if(!symbol){
+
+        return;
+
+    }
+
+    const state =
+        marketState[symbol];
+
+    if(!state){
+
+        return;
+
+    }
+
+    const stake =
+        getStake();
+
+    executionMarket.textContent =
+        state.name;
+
+    executionDirection.textContent =
+        direction;
+
+    executionStake.textContent =
+        `${stake.toFixed(2)} ${currencyInput.value}`;
+
+    if(
+        direction === "RISE" ||
+        direction === "FALL"
+    ){
+
+        executionDecision.textContent =
+            `${source.toUpperCase()} · ${direction} SETUP READY`;
+
+        executionDecision.classList.remove(
+            "buy",
+            "sell",
+            "wait"
+        );
+
+        executionDecision.classList.add(
+            direction === "RISE"
+                ? "buy"
+                : "sell"
+        );
+
+    }else{
+
+        executionDecision.textContent =
+            "WAITING FOR VALID SIGNAL";
+
+        executionDecision.classList.remove(
+            "buy",
+            "sell"
+        );
+
+        executionDecision.classList.add(
+            "wait"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   MANUAL SETUP
+============================================================ */
+
+function prepareManual(
+    direction
+){
+
+    if(!validateRisk()){
+
+        manualStatus.textContent =
+            "Risk configuration needs attention before preparing a setup.";
+
+        return;
+
+    }
+
+    const symbol =
+        manualMarketSelector.value;
+
+    const state =
+        marketState[symbol];
+
+    if(!state){
+
+        return;
+
+    }
+
+    prepareExecution(
+        symbol,
+        direction,
+        "Manual"
+    );
+
+    manualStatus.textContent =
+        `Prepared ${direction} setup for ${state.name}. ` +
+        `Contract submission remains disabled in this build.`;
+
+    highlightMarket(
+        symbol
+    );
+
+    log(
+        `Manual ${direction} setup prepared for ${state.name}.`
+    );
+
+}
+
+
+/* ============================================================
+   PUBLIC MARKET DATA
+============================================================ */
+
+function connectLiveData(){
+
+    disconnectLiveData(false);
+
+    ticksReceived =
+        0;
+
+    subscriptions =
+        0;
+
+    summaryTicks.textContent =
+        "0";
+
+    summarySubscriptions.textContent =
+        "0";
+
+    log(
+        "Connecting to Deriv public market data..."
+    );
+
+    publicWs =
+        new WebSocket(
+            PUBLIC_WS_URL
+        );
+
+    publicWs.onopen =
+        function(){
+
+            setConnectionState(true);
+
+            log(
+                "Connected to Deriv public market data."
+            );
+
+            requestMarkets();
+
+        };
+
+    publicWs.onmessage =
+        function(event){
+
+            try{
+
+                const data =
+                    JSON.parse(
+                        event.data
+                    );
+
+                handleDerivMessage(
+                    data
+                );
+
+            }catch(error){
+
+                console.error(
+                    "Market message parsing error:",
+                    error
+                );
+
+            }
+
+        };
+
+    publicWs.onerror =
+        function(){
+
+            log(
+                "Market data connection error."
+            );
+
+        };
+
+    publicWs.onclose =
+        function(){
+
+            setConnectionState(false);
+
+            log(
+                "Market data connection closed."
+            );
+
+        };
+
+}
+
+
+function requestMarkets(){
+
+    if(
+        !publicWs ||
+        publicWs.readyState !==
+        WebSocket.OPEN
+    ){
+
+        return;
+
+    }
+
+    /*
+     * Current Deriv API supports active_symbols
+     * without authentication. We request it so
+     * availability can be observed in the log.
+     */
+
+    publicWs.send(
+        JSON.stringify({
+
+            active_symbols:"brief",
+
+            req_id:1001
+
+        })
+    );
+
+
+    /*
+     * Subscribe to each selected market.
+     */
+
+    MARKETS.forEach(
+        (market,index) => {
+
+            publicWs.send(
+                JSON.stringify({
+
+                    ticks:
+                        market.symbol,
+
+                    subscribe:1,
+
+                    req_id:
+                        2000 + index
+
+                })
+            );
+
+            subscriptions++;
+
+        }
+    );
+
+    summarySubscriptions.textContent =
+        subscriptions;
+
+    log(
+        `Subscribed to ${MARKETS.length} selected markets.`
+    );
+
+}
+
+
+/* ============================================================
+   DERIV MESSAGE HANDLER
+============================================================ */
+
+function handleDerivMessage(data){
+
+    if(data.error){
+
+        console.error(
+            "Deriv API error:",
+            data.error
+        );
+
+        log(
+            "Deriv API error: " +
+            (
+                data.error.message ||
+                "Unknown error"
+            )
+        );
+
+        return;
+
+    }
+
+    if(
+        data.msg_type ===
+        "active_symbols"
+    ){
+
+        const count =
+            Array.isArray(
+                data.active_symbols
+            )
+                ? data.active_symbols.length
+                : 0;
+
+        log(
+            `Deriv active-symbol response received: ${count} symbols.`
+        );
+
+        return;
+
+    }
+
+    if(data.tick){
+
+        processTick(
+            data.tick
+        );
+
+    }
+
+}
+
+
+function processTick(tick){
+
+    const symbol =
+        tick.symbol ||
+        tick.underlying_symbol;
+
+    const state =
+        marketState[symbol];
+
+    if(!state){
+
+        return;
+
+    }
+
+    const price =
+        Number(
+            tick.quote
+        );
+
+    if(
+        !Number.isFinite(price)
+    ){
+
+        return;
+
+    }
+
+    state.prices.push(
+        price
+    );
+
+    if(
+        state.prices.length >
+        300
+    ){
+
+        state.prices.shift();
+
+    }
+
+    state.lastPrice =
+        price;
+
+    state.lastUpdate =
+        Date.now();
+
+    ticksReceived++;
+
+    summaryTicks.textContent =
+        ticksReceived;
+
+    analyzeMarket(
+        symbol
+    );
+
+    /*
+     * Update Smart AI periodically from
+     * the live data stream.
+     */
+
+    if(
+        ticksReceived % 25 ===
+        0 &&
+        !autoSwitcherEnabled
+    ){
+
+        runSmartAI(false);
+
+    }
+
+}
+
+
+/* ============================================================
+   DISCONNECT
+============================================================ */
+
+function disconnectLiveData(
+    writeLog = true
+){
+
+    if(publicWs){
+
+        try{
+
+            publicWs.close();
+
+        }catch(error){}
+
+        publicWs =
+            null;
+
+    }
+
+    setConnectionState(false);
+
+    if(writeLog){
+
+        log(
+            "Disconnected from live market data."
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   ACCOUNT SOCKET CLOSE
+============================================================ */
+
+function closeAccountWebSocket(){
+
+    if(accountWs){
+
+        try{
+
+            accountWs.close();
+
+        }catch(error){}
+
+        accountWs =
+            null;
+
+    }
+
+    accountStreamConnected =
+        false;
+
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+function logout(){
+
+    disconnectLiveData();
+
+    closeAccountWebSocket();
+
+    if(smartAiTimer){
+
+        clearInterval(
+            smartAiTimer
+        );
+
+        smartAiTimer =
+            null;
+
+    }
+
+    autoSwitcherEnabled =
+        false;
+
+    oauthAccessToken =
+        null;
+
+    authenticatedAccounts =
+        [];
+
+    selectedAccount =
+        null;
+
+    accountId.textContent =
+        "—";
+
+    accountBalance.textContent =
+        "—";
+
+    accountMode.textContent =
+        "—";
+
+    accountSelector.innerHTML =
+        "<option value=\"\">No account selected</option>";
+
+    accountStatus.textContent =
+        "";
+
+    transactionItems =
+        [];
+
+    renderTransactions();
+
+    /*
+     * Only remove CASPER OAuth session keys.
+     * Do not indiscriminately clear every sessionStorage
+     * entry belonging to the page/application.
+     */
+
+    sessionStorage.removeItem(
+        "casper_code_verifier"
+    );
+
+    sessionStorage.removeItem(
+        "casper_oauth_state"
+    );
+
+    showLogin();
+
+    log(
+        "Logged out."
+    );
+
+}
+
+
+/* ============================================================
+   BUTTON EVENTS
+============================================================ */
+
+loginDerivBtn.addEventListener(
+    "click",
+    loginWithDeriv
+);
+
+
+connectBtn.addEventListener(
+    "click",
+    connectLiveData
+);
+
+
+disconnectBtn.addEventListener(
+    "click",
+    disconnectLiveData
+);
+
+
+logoutBtn.addEventListener(
+    "click",
+    logout
+);
+
+
+smartSelectBtn.addEventListener(
+    "click",
+    function(){
+
+        runSmartAI(false);
+
+    }
+);
+
+
+autoSwitcherBtn.addEventListener(
+    "click",
+    toggleAutoSwitcher
+);
+
+
+manualRiseBtn.addEventListener(
+    "click",
+    function(){
+
+        prepareManual("RISE");
+
+    }
+);
+
+
+manualFallBtn.addEventListener(
+    "click",
+    function(){
+
+        prepareManual("FALL");
+
+    }
+);
+
+
+accountSelector.addEventListener(
+    "change",
+    async function(){
+
+        const accountIdValue =
+            this.value;
+
+        if(!accountIdValue){
+
+            return;
+
+        }
+
+        await selectAccount(
+            accountIdValue
+        );
+
+    }
+);
+
+
+/* ============================================================
+   CONFIGURATION EVENTS
+============================================================ */
+
+[
+    stakeInput,
+    profitTargetInput,
+    maxLossInput
+].forEach(
+    input => {
+
+        input.addEventListener(
+            "change",
+            function(){
+
+                validateRisk();
+
+                prepareExecution(
+                    aiMarketSymbol(),
+                    aiDirection.textContent,
+                    "Smart AI"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+currencyInput.addEventListener(
+    "change",
+    function(){
+
+        prepareExecution(
+            aiMarketSymbol(),
+            aiDirection.textContent,
+            "Smart AI"
+        );
+
+    }
+);
+
+
+function aiMarketSymbol(){
+
+    const selected =
+        Object.values(
+            marketState
+        ).find(
+            state =>
+                state.name ===
+                aiMarket.textContent
+        );
+
+    return selected
+        ? selected.symbol
+        : manualMarketSelector.value;
+
+}
+
+
+/* ============================================================
+   INITIALIZATION
+============================================================ */
+
+renderMarkets();
+
+renderTransactions();
+
+validateRisk();
+
+handleOAuthCallback();
+
+
+/*
+ * The user can already see the application after
+ * the OAuth callback. Live market data remains a
+ * deliberate button action.
+ */
+
+</script>
+
+</body>
+</html>
